@@ -1,11 +1,15 @@
 package me.funso.angtowerdefense.server;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
-import java.io.IOException;
+import java.util.HashMap;
+
+import me.funso.angtowerdefense.User;
 
 public class Server {
-	ServerSocket ss;
+	private ServerSocket ss;
+	public static HashMap<Socket, User> session = new HashMap<Socket, User>();
 	
 	public Server(int port) throws IOException, SQLException {
 		this.ss = new ServerSocket(port);
