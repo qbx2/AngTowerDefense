@@ -1,7 +1,8 @@
-package me.funso.angtowerdefense;
+package me.funso.angtowerdefense.packet;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class PacketWriter {
 	public static void write(DataOutputStream out, Packet p) throws IOException {

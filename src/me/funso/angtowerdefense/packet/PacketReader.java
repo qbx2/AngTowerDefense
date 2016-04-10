@@ -1,4 +1,4 @@
-package me.funso.angtowerdefense;
+package me.funso.angtowerdefense.packet;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;

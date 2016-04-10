@@ -5,54 +5,44 @@ import java.io.IOException;
 import java.net.Socket;
 import java.sql.SQLException;
 
-import me.funso.angtowerdefense.Packet;
-import me.funso.angtowerdefense.PacketOpcode;
-import me.funso.angtowerdefense.PacketReader;
-import me.funso.angtowerdefense.server.handler.Alert;
-import me.funso.angtowerdefense.server.handler.Join;
-import me.funso.angtowerdefense.server.handler.Login;
+import me.funso.angtowerdefense.Param;
+import me.funso.angtowerdefense.op.Op;
+import me.funso.angtowerdefense.op.OpAlert;
+import me.funso.angtowerdefense.op.OpReqJoin;
+import me.funso.angtowerdefense.op.OpReqLogin;
+import me.funso.angtowerdefense.packet.Packet;
+import me.funso.angtowerdefense.packet.PacketReader;
+import me.funso.angtowerdefense.server.handler.AlertHandler;
+import me.funso.angtowerdefense.server.handler.ReqJoinHandler;
+import me.funso.angtowerdefense.server.handler.ReqLoginHandler;
 
 public class SocketHandler extends Thread {
 	Socket s;
-	DataInputStream in;
-	DataOutputStream out;
-	
-	public class Param {
-		public Socket sock;
-		public DataInputStream in;
-		public DataOutputStream dout;
-		public Packet packet;
-		
-		public Param(Socket s, DataInputStream in, DataOutputStream out, Packet p) {
-			this.sock = s;
-			this.in = in;
-			this.dout = out;
-			this.packet = p;
-		}
-	}
+	DataInputStream din;
+	DataOutputStream dout;
 
 	public SocketHandler(Socket s) throws IOException {
 		this.s = s;
-		in = new DataInputStream(s.getInputStream());
-		out = new DataOutputStream(s.getOutputStream());
+		din = new DataInputStream(s.getInputStream());
+		dout = new DataOutputStream(s.getOutputStream());
 	}
 	
 	public void run() {
 		try {
 			while(true) {
-				Packet packet = PacketReader.read(in);
-				PacketOpcode opcode = packet.readOpcode();
-				Param p = new Param(s, in, out, packet);
+				Packet packet = PacketReader.read(din);
+				Op op = packet.readOp();
+				Param param = new Param(s, din, dout);
 				
-				switch(opcode) {
+				switch(op.getPacketOpcode()) {
 				case ALERT: // fatal error, extra is UTF8Bytes
-					Alert.p(p);
+					AlertHandler.p(param, (OpAlert) op);
 					break;
-				case REQLOGIN:
-					Login.p(p);
+				case REQ_LOGIN:
+					ReqLoginHandler.p(param, (OpReqLogin) op);
 					break;
-				case REQJOIN:
-					Join.p(p);
+				case REQ_JOIN:
+					ReqJoinHandler.p(param, (OpReqJoin) op);
 					break;
 				case REQSTART:
 					//startGame(packet);
@@ -71,17 +61,19 @@ public class SocketHandler extends Thread {
 					break;
 				default:
 					// not implemented
+					System.out.println("Not Implemented Opcode - " + op.getPacketOpcode().ordinal());
 					break;
 				
 				}
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 		}
 		
 		try {
 			s.close();
+			Server.session.remove(s);
 		} catch (IOException e) {
 		}
 	}
