@@ -1,8 +1,5 @@
 package me.funso.angtowerdefense;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public class User implements Serializable {
@@ -20,24 +17,6 @@ public class User implements Serializable {
 		this.level = level;
 		this.exp = exp;
 		this.gold = gold;
-	}
-	
-	public void writeObject(ObjectOutputStream oout) throws IOException {
-		System.out.println("writeObject");
-		oout.writeUTF(user_id);
-		oout.writeUTF(nickname);
-		oout.writeInt(level);
-		oout.writeInt(exp);
-		oout.writeInt(gold);
-	}
-	
-	public void readObject(ObjectInputStream oin) throws IOException, ClassNotFoundException {
-		System.out.println("readObject");
-		user_id = oin.readUTF();
-		nickname = oin.readUTF();
-		level = oin.readInt();
-		exp = oin.readInt();
-		gold = oin.readInt();
 	}
 	
 	public String toString() {

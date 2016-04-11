@@ -1,9 +1,5 @@
 package me.funso.angtowerdefense.op;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
 import me.funso.angtowerdefense.User;
 import me.funso.angtowerdefense.packet.PacketOpcode;
 
@@ -22,17 +18,5 @@ public class OpResLogin extends Op {
 		this.errorCode = errorCode;
 		this.message = message;
 		this.user = user;
-	}
-
-	public void writeObject(ObjectOutputStream oout) throws IOException {
-		oout.writeInt(errorCode);
-		oout.writeUTF(message);
-		oout.writeObject(user);
-	}
-	
-	public void readObject(ObjectInputStream oin) throws IOException, ClassNotFoundException {
-		errorCode = oin.readInt();
-		message = oin.readUTF();
-		user = (User) oin.readObject();
 	}
 }
