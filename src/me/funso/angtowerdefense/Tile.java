@@ -1,0 +1,55 @@
+package me.funso.angtowerdefense;
+
+
+import java.awt.Graphics;
+
+import me.funso.angtowerdefense.client.Device;
+import me.funso.angtowerdefense.client.Main;
+
+public class Tile {
+	
+	private int r_x,r_y;		//tile's center xy
+	private int size;			//xy size;
+	private int x,y;			//index in map;
+	private int type;
+	
+	private Tower tower;
+	
+	public Tile(int x, int y, int type) {
+		this.x = x;
+		this.y = y;
+		this.type = type;
+		tower = null;
+		calcXYSize();
+	}
+	
+	public Tower buildTower(int tower_type) {
+		if(type != '_' || tower != null) {
+			return null;
+		} else {
+			tower = new Tower(x, y, r_x, r_y, tower_type);
+		}
+		return tower;
+	}
+	
+	public void drawTile(Graphics g) {
+		if(type == '_') {
+			g.drawRect(r_x-size/2, r_y-size/2, size, size);
+		}
+		if(tower != null) {
+			tower.drawTower(g);
+		}
+	}
+	
+	public void calcXYSize() {
+		r_x = Device.dim.height/35*(x+1)+Device.dim.height/70/50 + Device.dim.height/70;
+		r_y = Device.dim.height/35*(y+1)+Device.dim.height/100;
+		switch(type) {
+		case '_':
+			size = Device.dim.height/35;
+			break;
+		case '0': case 'S': case 'G':
+			break;
+		}
+	}
+}
