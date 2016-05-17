@@ -3,54 +3,37 @@ package me.funso.angtowerdefense.client.gui;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Timer;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import me.funso.angtowerdefense.Monster;
-import me.funso.angtowerdefense.Tile;
+import me.funso.angtowerdefense.Map;
 import me.funso.angtowerdefense.Tower;
 import me.funso.angtowerdefense.client.Device;
 import me.funso.angtowerdefense.client.Main;
-import me.funso.angtowerdefense.client.astar.Map;
-import me.funso.angtowerdefense.client.astar.Point;
-import me.funso.angtowerdefense.client.gui.timer.AttackTimer;
 import me.funso.angtowerdefense.client.gui.timer.DrawTimer;
-import me.funso.angtowerdefense.client.gui.timer.MonsterRegenTimer;
-import me.funso.angtowerdefense.client.gui.timer.MoveTimer;
 
 public class GameMain extends Container implements ActionListener, MouseListener {
 	
-	final int SIZE = 32;
 	final int TOWER_NUM = 10;
 	
 	JFrame frame;
 	private StageSelection prev;
 	private JButton btn[];
 	
-	private Tile[][] tile;
-	public static Monster[] monster;
-	
 	private JButton[] towerBuyBtn;
 	private Tower[] tower_info;
-	private ArrayList<Tower> tower;
-	
-	private String route;
-	private char[][] tileType;
 	
 	private Graphics g;
+	
+	private Map map;
 	
 	private int mineral;
 	private int life;
@@ -60,10 +43,7 @@ public class GameMain extends Container implements ActionListener, MouseListener
 	public static int game_speed;
 	
 	DrawTimer drawTimer;
-	MonsterRegenTimer regenTimer;
     Timer jobScheduler;
-    
-    Point start;
 	
 	public GameMain(StageSelection prev, int level) throws IOException {
 		this.prev = prev;
@@ -79,11 +59,9 @@ public class GameMain extends Container implements ActionListener, MouseListener
 		mineral = 30;
 		life = 20;
 		
-		tile = new Tile[SIZE][SIZE];
-		tileType = new char[SIZE][SIZE];
+		map = new Map();
+		
 		btn = new JButton[4];
-		monster = new Monster[30];
-		tower = new ArrayList<Tower>();
 		tower_info = new Tower[TOWER_NUM];
 		towerBuyBtn = new JButton[TOWER_NUM];
 		
@@ -125,12 +103,6 @@ public class GameMain extends Container implements ActionListener, MouseListener
 			frame.add(btn[i]);
 			btn[i].addActionListener(this);
 		}
-
-		route = astar();
-
-		for(int i=0; i<SIZE; i++)
-			for(int j=0; j<SIZE; j++)
-				tile[i][j] = new Tile(j,i,tileType[i][j]);
 		
 		setTimer();
 	    
@@ -144,38 +116,12 @@ public class GameMain extends Container implements ActionListener, MouseListener
 		
 		drawTimer = new DrawTimer(this);
 	    jobScheduler.scheduleAtFixedRate(drawTimer, 0, 1000/30);
-
-	    regenTimer = new MonsterRegenTimer(null, start, route);
-	    jobScheduler.schedule(regenTimer, 100, 300/4);
-	}
-	
-	public String astar() throws IOException {
-		
-		//use variable 'level', get the map from db, thank you!
-		
-		File file = new File("/Users/baek/Documents/workspace/AngTowerDefense/stage2.txt");
-		FileInputStream input = new FileInputStream(file);
-		byte buf[] = new byte[input.available()];
-		input.read(buf);
-		input.close();
-		Map map = new Map(new String(buf));
-		tileType = map.getMap();
-		start = map.find('S');
-		
-		return map.aStar(map.find('S'), map.find('G'));
 	}
 	
 	public void paint(Graphics g) {
 		super.paint(g);
 		
-		//tile
-		for(int i=0; i<SIZE; i++)
-			for(int j=0; j<SIZE; j++)
-				tile[i][j].drawTile(g);
-		
-		for(int i=0; i<monster.length; i++)
-			if(monster[i] != null)
-				monster[i].drawMonster(g);
+		map.drawMap(g);
 		
 		//info window
 		g.drawRect(Device.dim.height + Device.dim.height/70 - Device.dim.height/100*4,
@@ -208,15 +154,7 @@ public class GameMain extends Container implements ActionListener, MouseListener
 		} else if(e.getSource() == btn[3]) {
 			jobScheduler.cancel();
 			drawTimer.cancel();
-			regenTimer.cancel();
-			for(int i=0; i<tower.size(); i++) {
-				tower.get(i).cancelTimer();
-			}
-			for(int i=0; i<monster.length; i++) {
-				if(monster[i] != null) {
-					monster[i].cancelTimer();
-				}
-			}
+			map.cancelTimer();
 			prev.resume();
 		} else {
 			for(int i=0; i<TOWER_NUM; i++) {
@@ -241,8 +179,7 @@ public class GameMain extends Container implements ActionListener, MouseListener
 			
 			if(selected >= -100 && selected <= -91)
 				if(Main.user.level >= tower_info[selected+100].levelLimit) {
-					Tower t = tile[y][x].buildTower(selected+100);
-					tower.add(t);
+					map.buildTower(y, x, selected+100);
 				}
 		}
 	}

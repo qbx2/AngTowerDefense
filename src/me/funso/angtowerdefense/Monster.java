@@ -1,6 +1,9 @@
 package me.funso.angtowerdefense;
 
 import java.awt.Graphics;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Timer;
 
@@ -21,12 +24,16 @@ public class Monster {
 	private String name;			//name
 	private int armor, speed, hp;	//
 	
+	Point start;
+	
 	Timer jobScheduler;
 	MoveTimer moveTimer;
 	
-	public Monster(int type, Point start, String route, int index) {
+	public Monster(int type, char[][] tileType, int index) throws IOException {
 		this.type = type;
-		this.route = route;
+		
+		route = astar();
+		
 		move = new int[route.length()];
 		i=0;
 		start_x = start.x;
@@ -210,5 +217,20 @@ public class Monster {
 	
 	public void moveY(int y) {
 		this.y += y;
+	}
+	
+	public String astar() throws IOException {
+		
+		//use variable 'level', get the map from db, thank you!
+		
+		File file = new File("/Users/baek/Documents/workspace/AngTowerDefense/stage2.txt");
+		FileInputStream input = new FileInputStream(file);
+		byte buf[] = new byte[input.available()];
+		input.read(buf);
+		input.close();
+		me.funso.angtowerdefense.client.astar.Map map = new me.funso.angtowerdefense.client.astar.Map(new String(buf));
+		start = map.find('S');
+		
+		return map.aStar(map.find('S'), map.find('G'));
 	}
 }

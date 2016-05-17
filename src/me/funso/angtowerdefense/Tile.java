@@ -4,7 +4,6 @@ package me.funso.angtowerdefense;
 import java.awt.Graphics;
 
 import me.funso.angtowerdefense.client.Device;
-import me.funso.angtowerdefense.client.Main;
 
 public class Tile {
 	

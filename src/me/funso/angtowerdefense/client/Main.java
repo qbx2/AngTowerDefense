@@ -12,7 +12,7 @@ public class Main {
 	
 	public static void main(String args[]) throws InterruptedException {
 		
-		try {
+		/*try {
 			c = new Client("v.funso.me", 15349);
 			//User user = c.login("user_id_test1", "12345678");
 			//System.out.println(user);
@@ -21,7 +21,7 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return;
-		}
+		}*/
 		
 		/*try {
 			if(c != null) {

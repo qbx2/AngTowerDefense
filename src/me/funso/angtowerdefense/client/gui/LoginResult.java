@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import me.funso.angtowerdefense.User;
 import me.funso.angtowerdefense.client.Device;
 import me.funso.angtowerdefense.client.Main;
 import me.funso.angtowerdefense.op.OpResLogin;
@@ -25,8 +26,16 @@ public class LoginResult implements ActionListener {
 		this.prev = prev;
 		frame = prev.frame;
 		this.opResLogin = opResLogin;
+		
+		//
+		opResLogin.errorCode = 0;
+		//
+		
 		if(opResLogin.errorCode == 0) {
 			Main.user = opResLogin.user;
+			//
+			Main.user = new User("sdsd", "nick", 20, 0, 0);
+			//
 			new StageSelection(prev);
 		} else {
 			container = new Container();

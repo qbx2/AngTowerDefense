@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.util.Timer;
 
 import me.funso.angtowerdefense.client.Device;
-import me.funso.angtowerdefense.client.gui.GameMain;
 import me.funso.angtowerdefense.client.gui.timer.AttackTimer;
 
 public class Tower {
@@ -65,9 +64,9 @@ public class Tower {
 					if(target.damaged(damage)) {		//didn't die
 						
 					} else {		//die
-						for(int i=0; i<GameMain.monster.length; i++) {
-							if(GameMain.monster[i] == target) {
-								GameMain.monster[i] = null;
+						for(int i=0; i<Map.monster.length; i++) {
+							if(Map.monster[i] == target) {
+								Map.monster[i] = null;
 								return;
 							}
 						}
@@ -77,16 +76,16 @@ public class Tower {
 			}
 		}
 		
-		for(int i=0; i<GameMain.monster.length; i++) {
-			if(GameMain.monster[i] != null) {
-				monster_x = GameMain.monster[i].getX();
-				monster_y = GameMain.monster[i].getY();
+		for(int i=0; i<Map.monster.length; i++) {
+			if(Map.monster[i] != null) {
+				monster_x = Map.monster[i].getX();
+				monster_y = Map.monster[i].getY();
 				if(attack_range >= Math.sqrt(Math.pow(monster_x-r_x, 2) + Math.pow(monster_y-r_y, 2))) {
-					target = GameMain.monster[i];
+					target = Map.monster[i];
 					if(target.damaged(damage)) {
 						
 					} else {		//die
-						GameMain.monster[i] = null;
+						Map.monster[i] = null;
 					}
 					return;
 				}
