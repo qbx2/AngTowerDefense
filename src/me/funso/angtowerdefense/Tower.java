@@ -64,9 +64,9 @@ public class Tower {
 					if(target.damaged(damage)) {		//didn't die
 						
 					} else {		//die
-						for(int i=0; i<Map.monster.length; i++) {
-							if(Map.monster[i] == target) {
-								Map.monster[i] = null;
+						for(int i=0; i<Game.monster.length; i++) {
+							if(Game.monster[i] == target) {
+								Game.monster[i] = null;
 								return;
 							}
 						}
@@ -76,16 +76,16 @@ public class Tower {
 			}
 		}
 		
-		for(int i=0; i<Map.monster.length; i++) {
-			if(Map.monster[i] != null) {
-				monster_x = Map.monster[i].getX();
-				monster_y = Map.monster[i].getY();
+		for(int i=0; i<Game.monster.length; i++) {
+			if(Game.monster[i] != null) {
+				monster_x = Game.monster[i].getX();
+				monster_y = Game.monster[i].getY();
 				if(attack_range >= Math.sqrt(Math.pow(monster_x-r_x, 2) + Math.pow(monster_y-r_y, 2))) {
-					target = Map.monster[i];
+					target = Game.monster[i];
 					if(target.damaged(damage)) {
 						
 					} else {		//die
-						Map.monster[i] = null;
+						Game.monster[i] = null;
 					}
 					return;
 				}

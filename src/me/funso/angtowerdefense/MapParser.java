@@ -8,14 +8,14 @@ public class MapParser {
 		int x = 0;
 		int y = 0;
 		for(byte b: strMap.getBytes("UTF-8")) {
-			Tile t = new Tile();
+			TileType type = TileType.NORMAL;
 			
 			if(b == 'S') {
-				t.type = TileType.START;
+				type = TileType.START;
 			} else if(b == 'G') {
-				t.type = TileType.GOAL;
+				type = TileType.GOAL;
 			} else if(b == '_') {
-				t.type = TileType.BLOCKED;
+				type = TileType.BLOCKED;
 			} else if(b == '\n') {
 				x = 0;
 				y++;
@@ -23,9 +23,11 @@ public class MapParser {
 			} else if(b == '0') {
 				
 			} else {
+				//ignore
 				continue;
 			}
 			
+			Tile t = new Tile(x, y, type);
 			ret[x][y] = t;
 			x++;
 			

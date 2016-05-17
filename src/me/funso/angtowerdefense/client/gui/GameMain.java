@@ -14,7 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import me.funso.angtowerdefense.Map;
+import me.funso.angtowerdefense.Game;
 import me.funso.angtowerdefense.Tower;
 import me.funso.angtowerdefense.client.Device;
 import me.funso.angtowerdefense.client.Main;
@@ -33,7 +33,7 @@ public class GameMain extends Container implements ActionListener, MouseListener
 	
 	private Graphics g;
 	
-	private Map map;
+	private Game map;
 	
 	private int mineral;
 	private int life;
@@ -59,7 +59,7 @@ public class GameMain extends Container implements ActionListener, MouseListener
 		mineral = 30;
 		life = 20;
 		
-		map = new Map();
+		map = new Game();
 		
 		btn = new JButton[4];
 		tower_info = new Tower[TOWER_NUM];

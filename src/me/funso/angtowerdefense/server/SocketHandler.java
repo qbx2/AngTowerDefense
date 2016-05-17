@@ -9,11 +9,13 @@ import me.funso.angtowerdefense.Param;
 import me.funso.angtowerdefense.op.Op;
 import me.funso.angtowerdefense.op.OpAlert;
 import me.funso.angtowerdefense.op.OpReqJoin;
+import me.funso.angtowerdefense.op.OpReqLoadMap;
 import me.funso.angtowerdefense.op.OpReqLogin;
 import me.funso.angtowerdefense.packet.Packet;
 import me.funso.angtowerdefense.packet.PacketReader;
 import me.funso.angtowerdefense.server.handler.AlertHandler;
 import me.funso.angtowerdefense.server.handler.ReqJoinHandler;
+import me.funso.angtowerdefense.server.handler.ReqLoadMapHandler;
 import me.funso.angtowerdefense.server.handler.ReqLoginHandler;
 
 public class SocketHandler extends Thread {
@@ -44,19 +46,22 @@ public class SocketHandler extends Thread {
 				case REQ_JOIN:
 					ReqJoinHandler.p(param, (OpReqJoin) op);
 					break;
-				case REQSTART:
+				case REQ_START_GAME:
 					//startGame(packet);
 					break;
-				case REQSAVE:
+				case REQ_SAVE_GAME:
 					//saveGame(packet);
 					break;
-				case REQLOAD:
+				case REQ_LOAD_GAME:
 					//loadGame(packet);
 					break;
-				case INSTALLTOWER:
+				case REQ_LOAD_MAP:
+					ReqLoadMapHandler.p(param, (OpReqLoadMap) op);
+					break;
+				case INSTALL_TOWER:
 					//installTower(packet);
 					break;
-				case REQUPGRADE:
+				case REQ_UPGRADE:
 					//upgrade(packet);
 					break;
 				default:

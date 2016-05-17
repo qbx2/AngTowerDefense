@@ -2,7 +2,7 @@ package me.funso.angtowerdefense.client.gui.timer;
 
 import java.util.TimerTask;
 
-import me.funso.angtowerdefense.Map;
+import me.funso.angtowerdefense.Game;
 import me.funso.angtowerdefense.Monster;
 import me.funso.angtowerdefense.client.gui.GameMain;
 
@@ -24,7 +24,7 @@ public class MoveTimer extends TimerTask {
 		if(GameMain.game_speed*j >= 4) {
 			j=0;
 			if(!monster.move()) {
-				Map.monster[index] = null;
+				Game.monster[index] = null;
 				this.cancel();
 			}
 		}

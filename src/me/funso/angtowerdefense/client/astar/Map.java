@@ -33,6 +33,7 @@ public class Map {
 				this.map[y][x] = tmp[i];
 				x++;
 			}
+			
 			y++;
 		}
 

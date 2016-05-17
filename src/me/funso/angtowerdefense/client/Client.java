@@ -9,10 +9,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import me.funso.angtowerdefense.client.api.Alert;
 import me.funso.angtowerdefense.client.api.Join;
+import me.funso.angtowerdefense.client.api.LoadMap;
 import me.funso.angtowerdefense.client.api.Login;
 import me.funso.angtowerdefense.client.handler.AlertHandler;
 import me.funso.angtowerdefense.op.Op;
 import me.funso.angtowerdefense.op.OpResJoin;
+import me.funso.angtowerdefense.op.OpResLoadMap;
 import me.funso.angtowerdefense.op.OpResLogin;
 import me.funso.angtowerdefense.packet.Packet;
 import me.funso.angtowerdefense.packet.PacketOpcode;
@@ -75,9 +77,13 @@ public class Client {
 	public OpResLogin login(String user_id, String user_pw) throws IOException, InterruptedException {
 		return Login.p(param, user_id, user_pw);
 	}
-	
+
 	public OpResJoin join(String user_id, String user_pw, String nickname) throws IOException, InterruptedException {
 		return Join.p(param, user_id, user_pw, nickname);
+	}
+
+	public OpResLoadMap loadMap(int idx) throws IOException, InterruptedException {
+		return LoadMap.p(param, idx);
 	}
 
 	public void close() throws IOException {

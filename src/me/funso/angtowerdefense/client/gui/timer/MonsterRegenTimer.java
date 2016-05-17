@@ -3,7 +3,7 @@ package me.funso.angtowerdefense.client.gui.timer;
 import java.io.IOException;
 import java.util.TimerTask;
 
-import me.funso.angtowerdefense.Map;
+import me.funso.angtowerdefense.Game;
 import me.funso.angtowerdefense.Monster;
 import me.funso.angtowerdefense.client.gui.GameMain;
 
@@ -23,9 +23,9 @@ public class MonsterRegenTimer extends TimerTask {
 		// TODO Auto-generated method stub
 		if(GameMain.game_speed*j >= 4) {
 			j=0;
-			if(i < Map.monster.length) {
+			if(i < Game.monster.length) {
 				try {
-					Map.monster[i] = new Monster(0,tileType,i);
+					Game.monster[i] = new Monster(0,tileType,i);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

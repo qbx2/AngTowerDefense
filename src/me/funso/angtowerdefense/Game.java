@@ -1,16 +1,15 @@
 package me.funso.angtowerdefense;
 
 import java.awt.Graphics;
-import java.io.File;
-import java.io.FileInputStream;
+import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 
-import me.funso.angtowerdefense.client.astar.Point;
+import me.funso.angtowerdefense.client.Client;
 import me.funso.angtowerdefense.client.gui.timer.MonsterRegenTimer;
 
-public class Map {
+public class Game {
 
 	final int SIZE = 32;
 	
@@ -25,7 +24,7 @@ public class Map {
     Timer jobScheduler;
 	MonsterRegenTimer regenTimer;
 	
-	public Map() throws IOException {
+	public Game() throws IOException {
 		init();
 		setTimer();
 	}
@@ -53,18 +52,11 @@ public class Map {
 		tower.add(t);
 	}
 	
-	public void init() throws IOException {
-		tile = new Tile[SIZE][SIZE];
-		tileType = new char[SIZE][SIZE];
-		
+	public void init() throws IOException, InterruptedException {
 		monster = new Monster[30];
 		tower = new ArrayList<Tower>();
 
-		getMap();
-
-		for(int i=0; i<SIZE; i++)
-			for(int j=0; j<SIZE; j++)
-				tile[i][j] = new Tile(j,i,tileType[i][j]);
+		tile = getMap();
 	}
 	
 	public void drawMap(Graphics g) {
@@ -77,13 +69,7 @@ public class Map {
 				monster[i].drawMonster(g);
 	}
 	
-	public void getMap() throws IOException {
-		File file = new File("/Users/baek/Documents/workspace/AngTowerDefense/stage2.txt");
-		FileInputStream input = new FileInputStream(file);
-		byte buf[] = new byte[input.available()];
-		input.read(buf);
-		input.close();
-		me.funso.angtowerdefense.client.astar.Map map = new me.funso.angtowerdefense.client.astar.Map(new String(buf));
-		tileType = map.getMap();
+	public Tile[][] getMap() throws IOException, InterruptedException {
+		return client.loadMap(map_idx).map;
 	}
 }

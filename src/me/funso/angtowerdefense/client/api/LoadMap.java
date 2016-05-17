@@ -3,20 +3,20 @@ package me.funso.angtowerdefense.client.api;
 import java.io.IOException;
 
 import me.funso.angtowerdefense.client.ClientParam;
-import me.funso.angtowerdefense.op.OpReqLogin;
-import me.funso.angtowerdefense.op.OpResLogin;
+import me.funso.angtowerdefense.op.OpReqLoadMap;
+import me.funso.angtowerdefense.op.OpResLoadMap;
 import me.funso.angtowerdefense.packet.Packet;
 import me.funso.angtowerdefense.packet.PacketOpcode;
 import me.funso.angtowerdefense.packet.PacketWriter;
 
-public class Login {
+public class LoadMap {
 
-	public static OpResLogin p(ClientParam param, String user_id, String user_pw) throws IOException, InterruptedException {
+	public static OpResLoadMap p(ClientParam param, int idx) throws IOException, InterruptedException {
 		Packet p = new Packet();
-		p.writeOp(new OpReqLogin(user_id, user_pw));
+		p.writeOp(new OpReqLoadMap(idx));
 		PacketWriter.write(param.dout, p);
 		
-		OpResLogin op = (OpResLogin)param.qs.get(PacketOpcode.RES_LOGIN).take();
+		OpResLoadMap op = (OpResLoadMap)param.qs.get(PacketOpcode.RES_LOAD_MAP).take();
 		
 		/*if(op.errorCode != 0) {
 			System.out.println(op.message);
