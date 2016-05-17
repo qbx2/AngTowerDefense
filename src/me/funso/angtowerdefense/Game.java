@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 
-import me.funso.angtowerdefense.client.Client;
+import me.funso.angtowerdefense.client.Main;
 import me.funso.angtowerdefense.client.gui.timer.MonsterRegenTimer;
 
 public class Game {
@@ -19,12 +19,15 @@ public class Game {
 	public static Monster[] monster;
 	private ArrayList<Tower> tower;
 
+	private int level;
+	
     Point start;
 
     Timer jobScheduler;
 	MonsterRegenTimer regenTimer;
 	
-	public Game() throws IOException {
+	public Game(int level) throws IOException, InterruptedException {
+		this.level = level;
 		init();
 		setTimer();
 	}
@@ -70,6 +73,6 @@ public class Game {
 	}
 	
 	public Tile[][] getMap() throws IOException, InterruptedException {
-		return client.loadMap(map_idx).map;
+		return Main.c.loadMap(level).map;
 	}
 }
