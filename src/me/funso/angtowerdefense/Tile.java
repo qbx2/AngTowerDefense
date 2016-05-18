@@ -2,6 +2,7 @@ package me.funso.angtowerdefense;
 
 
 import java.awt.Graphics;
+import java.awt.GraphicsEnvironment;
 
 import me.funso.angtowerdefense.client.Device;
 
@@ -19,7 +20,10 @@ public class Tile {
 		this.y = y;
 		this.type = type;
 		tower = null;
-		calcXYSize();
+		GraphicsEnvironment ge = 
+		GraphicsEnvironment.getLocalGraphicsEnvironment(); 
+		if(!ge.isHeadless())
+			calcXYSize();
 	}
 
 	public Tower buildTower(int tower_type) {
