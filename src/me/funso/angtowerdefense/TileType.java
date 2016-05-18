@@ -2,7 +2,7 @@ package me.funso.angtowerdefense;
 
 public enum TileType {
 	NORMAL,
-	BLOCKED,
+	ROAD,
 	START,
 	GOAL
 }

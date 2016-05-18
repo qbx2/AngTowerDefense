@@ -27,7 +27,7 @@ public class Tile {
 	}
 
 	public Tower buildTower(int tower_type) {
-		if(type == TileType.BLOCKED || tower != null) {
+		if(type == TileType.ROAD || tower != null) {
 			return null;
 		} else {
 			tower = new Tower(x, y, r_x, r_y, tower_type);
@@ -36,7 +36,7 @@ public class Tile {
 	}
 	
 	public void drawTile(Graphics g) {
-		if(type == TileType.BLOCKED) {
+		if(type == TileType.NORMAL) {
 			g.drawRect(r_x-size/2, r_y-size/2, size, size);
 		}
 		if(tower != null) {
@@ -48,7 +48,7 @@ public class Tile {
 		r_x = Device.dim.height/35*(x+1)+Device.dim.height/70/50 + Device.dim.height/70;
 		r_y = Device.dim.height/35*(y+1)+Device.dim.height/100;
 		switch(type) {
-		case BLOCKED:
+		case NORMAL:
 			size = Device.dim.height/35;
 			break;
 		//case '0': case 'S': case 'G':
