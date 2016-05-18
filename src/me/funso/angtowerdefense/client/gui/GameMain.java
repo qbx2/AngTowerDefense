@@ -45,7 +45,7 @@ public class GameMain extends Container implements ActionListener, MouseListener
 	DrawTimer drawTimer;
     Timer jobScheduler;
 	
-	public GameMain(StageSelection prev, int level) throws IOException {
+	public GameMain(StageSelection prev, int level) throws IOException, InterruptedException {
 		this.prev = prev;
 		frame = prev.frame;
 		this.level = level;
@@ -53,13 +53,13 @@ public class GameMain extends Container implements ActionListener, MouseListener
 		init();
 	}
 	
-	public void init() throws IOException {
+	public void init() throws IOException, InterruptedException {
 		frame.setContentPane(this);
 
 		mineral = 30;
 		life = 20;
 		
-		map = new Game();
+		map = new Game(level);
 		
 		btn = new JButton[4];
 		tower_info = new Tower[TOWER_NUM];
