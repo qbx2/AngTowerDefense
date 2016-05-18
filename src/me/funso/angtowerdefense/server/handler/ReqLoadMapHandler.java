@@ -20,6 +20,7 @@ import me.funso.angtowerdefense.server.SHACalculator;
 public class ReqLoadMapHandler {
 	public static void p(Param param, OpReqLoadMap op) throws IOException, SQLException {
 		int idx = op.idx;
+		System.out.println("ReqLoadMapHandler("+idx+")");
 		
 		PreparedStatement ps = MySQLConnector.prepareStatement("SELECT data FROM tbl_map WHERE idx=?");
 		ps.setInt(1, idx);
@@ -27,9 +28,8 @@ public class ReqLoadMapHandler {
 		
 		if(rs.next()) {
 			String data = rs.getString(1);
-			Tile[][] map = MapParser.parse(data);
 			Packet p = new Packet();
-			p.writeOp(new OpResLoadMap(map));
+			p.writeOp(new OpResLoadMap(data));
 			PacketWriter.write(param.dout, p);
 			return;
 		} else {

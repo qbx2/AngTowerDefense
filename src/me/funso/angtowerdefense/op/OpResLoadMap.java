@@ -1,5 +1,4 @@
 package me.funso.angtowerdefense.op;
-
 import me.funso.angtowerdefense.Tile;
 import me.funso.angtowerdefense.packet.PacketOpcode;
 
@@ -10,9 +9,9 @@ public class OpResLoadMap extends Op {
 		return PacketOpcode.values()[(int) serialVersionUID];
 	}
 	
-	public Tile map[][];
+	public String map;
 	
-	public OpResLoadMap(Tile map[][]) {
-		this.map = map;
+	public OpResLoadMap(String data) {
+		this.map = data;
 	}
 }
