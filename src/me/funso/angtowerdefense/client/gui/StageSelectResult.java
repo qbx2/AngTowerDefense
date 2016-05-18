@@ -25,7 +25,7 @@ public class StageSelectResult implements ActionListener {
 		if(Main.user.level >= level) {
 			try {
 				new GameMain(prev, level);
-			} catch(IOException e) {
+			} catch(IOException | InterruptedException e) {
 				this.prev = prev;
 				frame = prev.frame;
 				container = new Container();
