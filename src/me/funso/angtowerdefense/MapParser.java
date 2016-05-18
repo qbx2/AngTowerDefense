@@ -15,13 +15,13 @@ public class MapParser {
 			} else if(b == 'G') {
 				type = TileType.GOAL;
 			} else if(b == '_') {
-				type = TileType.BLOCKED;
+				
 			} else if(b == '\n') {
 				x = 0;
 				y++;
 				continue;
 			} else if(b == '0') {
-				
+				type = TileType.ROAD;
 			} else {
 				//ignore
 				continue;

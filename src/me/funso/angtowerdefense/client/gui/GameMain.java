@@ -179,7 +179,7 @@ public class GameMain extends Container implements ActionListener, MouseListener
 			
 			if(selected >= -100 && selected <= -91)
 				if(Main.user.level >= tower_info[selected+100].levelLimit) {
-					map.buildTower(y, x, selected+100);
+					map.buildTower(x, y, selected+100);
 				}
 		}
 	}
