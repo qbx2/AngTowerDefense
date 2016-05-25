@@ -27,15 +27,8 @@ public class LoginResult implements ActionListener {
 		frame = prev.frame;
 		this.opResLogin = opResLogin;
 		
-		//
-		opResLogin.errorCode = 0;
-		//
-		
 		if(opResLogin.errorCode == 0) {
 			Main.user = opResLogin.user;
-			//
-			Main.user = new User("sdsd", "nick", 20, 0, 0);
-			//
 			new StageSelection(prev);
 		} else {
 			container = new Container();

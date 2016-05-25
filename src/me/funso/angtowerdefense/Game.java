@@ -73,9 +73,6 @@ public class Game {
 	}
 	
 	public Tile[][] getMap() throws IOException, InterruptedException {
-		System.out.println(Main.c);
-		String map = Main.c.loadMap(level).map;
-		System.out.println(map);
-		return MapParser.parse(map);
+		return MapParser.parse(Main.c.loadMap(level).map);
 	}
 }
