@@ -34,6 +34,7 @@ public class ReqLoginHandler {
 		}
 		
 		PreparedStatement ps = MySQLConnector.prepareStatement("SELECT * FROM tbl_user WHERE user_id=?"); // case insensitive
+		//ps.close();
 		ps.setString(1, user_id);
 		ResultSet rs = ps.executeQuery();
 		

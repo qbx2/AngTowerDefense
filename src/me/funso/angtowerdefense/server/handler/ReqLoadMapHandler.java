@@ -5,17 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import me.funso.angtowerdefense.MapParser;
 import me.funso.angtowerdefense.Param;
-import me.funso.angtowerdefense.Tile;
-import me.funso.angtowerdefense.client.astar.Map;
 import me.funso.angtowerdefense.op.OpReqLoadMap;
-import me.funso.angtowerdefense.op.OpResJoin;
 import me.funso.angtowerdefense.op.OpResLoadMap;
 import me.funso.angtowerdefense.packet.Packet;
 import me.funso.angtowerdefense.packet.PacketWriter;
 import me.funso.angtowerdefense.server.MySQLConnector;
-import me.funso.angtowerdefense.server.SHACalculator;
 
 public class ReqLoadMapHandler {
 	public static void p(Param param, OpReqLoadMap op) throws IOException, SQLException {
