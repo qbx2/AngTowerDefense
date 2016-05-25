@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 
 import me.funso.angtowerdefense.Game;
 import me.funso.angtowerdefense.Tower;
+import me.funso.angtowerdefense.TowerInfo;
 import me.funso.angtowerdefense.client.Device;
 import me.funso.angtowerdefense.client.Main;
 import me.funso.angtowerdefense.client.gui.timer.DrawTimer;
@@ -29,7 +30,7 @@ public class GameMain extends Container implements ActionListener, MouseListener
 	private JButton btn[];
 	
 	private JButton[] towerBuyBtn;
-	private Tower[] tower_info;
+	public static TowerInfo[] towerInfo;
 	
 	private Graphics g;
 	
@@ -37,7 +38,7 @@ public class GameMain extends Container implements ActionListener, MouseListener
 	
 	private int mineral;
 	private int life;
-	private int level;
+	public static int level;
 	
 	private int selected;
 	public static int game_speed;
@@ -62,7 +63,7 @@ public class GameMain extends Container implements ActionListener, MouseListener
 		map = new Game(level);
 		
 		btn = new JButton[4];
-		tower_info = new Tower[TOWER_NUM];
+		towerInfo = new TowerInfo[TOWER_NUM];
 		towerBuyBtn = new JButton[TOWER_NUM];
 		
 		for(int i=0; i<2; i++) {
@@ -79,7 +80,7 @@ public class GameMain extends Container implements ActionListener, MouseListener
 		}
 		
 		for(int i=0; i<TOWER_NUM; i++) {
-			tower_info[i] = new Tower(-999,-999,-999,-999,i);
+			towerInfo[i] = Main.c.towerInfo(i+1).info;
 		}
 
 		btn[0] = new JButton("×1");
@@ -178,7 +179,7 @@ public class GameMain extends Container implements ActionListener, MouseListener
 			y = (e.getY() - (Device.dim.height/70 + Device.dim.height/100)) / (Device.dim.height/35);
 			
 			if(selected >= -100 && selected <= -91)
-				if(Main.user.level >= tower_info[selected+100].levelLimit) {
+				if(Main.user.level >= towerInfo[selected+100].unlock_level) {
 					map.buildTower(x, y, selected+100);
 				}
 		}

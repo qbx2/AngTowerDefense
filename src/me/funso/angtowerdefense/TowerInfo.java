@@ -18,6 +18,7 @@ public class TowerInfo implements Serializable {
 		this.name = name;
 		this.description = description;
 		this.damage = damage;
+		this.attack_speed = attack_speed;
 		this.unlock_level = unlock_level;
 		this.cost = cost;
 		this.attack_range = attack_range;

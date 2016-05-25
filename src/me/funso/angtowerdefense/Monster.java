@@ -8,7 +8,10 @@ import java.util.Random;
 import java.util.Timer;
 
 import me.funso.angtowerdefense.client.Device;
+import me.funso.angtowerdefense.client.Main;
+import me.funso.angtowerdefense.client.astar.Map;
 import me.funso.angtowerdefense.client.astar.Point;
+import me.funso.angtowerdefense.client.gui.GameMain;
 import me.funso.angtowerdefense.client.gui.timer.MoveTimer;
 
 public class Monster {
@@ -29,24 +32,22 @@ public class Monster {
 	Timer jobScheduler;
 	MoveTimer moveTimer;
 	
-	public Monster(int type, char[][] tileType, int index) throws IOException {
+	public Monster(int type, char[][] tileType, int index) throws IOException, InterruptedException {
 		this.type = type;
 		
 		route = astar();
-		
 		move = new int[route.length()];
 		i=0;
 		start_x = start.x;
 		start_y = start.y;
 		size_x = size_y = 0;
-		
-		
-		//for test, it will load from db
-		hp = 5;
-		armor = 0;
-		speed = 20;
-		
-		
+
+		MonsterInfo info = Main.c.monsterInfo(type).info;
+		hp = info.hp;
+		armor = info.armor;
+		speed = info.speed;
+		name = info.name;
+
 		setTimer(index);
 	}
 	
@@ -219,16 +220,14 @@ public class Monster {
 		this.y += y;
 	}
 	
-	public String astar() throws IOException {
-		
-		//use variable 'level', get the map from db, thank you!
-		
-		File file = new File("/Users/baek/Documents/workspace/AngTowerDefense/stage2.txt");
+	public String astar() throws IOException, InterruptedException {
+		/*File file = new File("/Users/baek/Documents/workspace/AngTowerDefense/stage2.txt");
 		FileInputStream input = new FileInputStream(file);
 		byte buf[] = new byte[input.available()];
 		input.read(buf);
-		input.close();
-		me.funso.angtowerdefense.client.astar.Map map = new me.funso.angtowerdefense.client.astar.Map(new String(buf));
+		input.close();*/
+
+		Map map = new Map(Main.c.loadMap(GameMain.level).map);
 		start = map.find('S');
 		
 		return map.aStar(map.find('S'), map.find('G'));

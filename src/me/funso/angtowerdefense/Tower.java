@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.util.Timer;
 
 import me.funso.angtowerdefense.client.Device;
+import me.funso.angtowerdefense.client.gui.GameMain;
 import me.funso.angtowerdefense.client.gui.timer.AttackTimer;
 
 public class Tower {
@@ -12,13 +13,12 @@ public class Tower {
 	private int r_x,r_y;		//tile's center xy
 	private int size;			//xy size;
 	private int x,y;			//index in map;
-	
-	//db data
+
 	private int type;		//idx
 	private String name;
 	private int damage, attack_speed, attack_range;
 	private Monster target;
-	public int cost, levelLimit;		//cost, unlock_level
+	public int cost;		//cost, unlock_level
 
 	AttackTimer attackTimer;
     Timer jobScheduler;
@@ -32,11 +32,11 @@ public class Tower {
 		
 		this.type = type;
 		//use type(idx), load below values from db
-		cost = 10;
-		levelLimit = 1;
-		attack_range = size*3;
-		attack_speed = 3;
-		damage = 5;
+		cost = GameMain.towerInfo[type].cost;
+		attack_range = size*GameMain.towerInfo[type].attack_range;
+		attack_speed = GameMain.towerInfo[type].attack_speed;
+		damage = GameMain.towerInfo[type].damage;
+		name = GameMain.towerInfo[type].name;
 		
 		setTimer();
 	}
@@ -47,6 +47,7 @@ public class Tower {
 	}
 	
 	public void setTimer() {
+		System.out.println(this.attack_speed);
 		jobScheduler = new Timer(true);
 
 	    attackTimer = new AttackTimer(this);
@@ -54,25 +55,24 @@ public class Tower {
 	}
 	
 	public void attack() {
+
 		int monster_x, monster_y;
-		
+
 		if(target != null) {
-			if(target != null) {
-				monster_x = target.getX();
-				monster_y = target.getY();
-				if(attack_range >= Math.sqrt(Math.pow(monster_x-r_x, 2) + Math.pow(monster_y-r_y, 2))) {
-					if(target.damaged(damage)) {		//didn't die
-						
-					} else {		//die
-						for(int i=0; i<Game.monster.length; i++) {
-							if(Game.monster[i] == target) {
-								Game.monster[i] = null;
-								return;
-							}
+			monster_x = target.getX();
+			monster_y = target.getY();
+			if(attack_range >= Math.sqrt(Math.pow(monster_x-r_x, 2) + Math.pow(monster_y-r_y, 2))) {
+				if(target.damaged(damage)) {		//didn't die
+
+				} else {		//die
+					for(int i=0; i<Game.monster.length; i++) {
+						if(Game.monster[i] == target) {
+							Game.monster[i] = null;
+							return;
 						}
 					}
-					return;
 				}
+				return;
 			}
 		}
 		

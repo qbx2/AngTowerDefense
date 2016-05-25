@@ -25,9 +25,11 @@ public class MonsterRegenTimer extends TimerTask {
 			j=0;
 			if(i < Game.monster.length) {
 				try {
-					Game.monster[i] = new Monster(0,tileType,i);
+					Game.monster[i] = new Monster(1,tileType,i);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 				i++;
