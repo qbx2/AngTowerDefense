@@ -1,8 +1,6 @@
-package me.funso.angtowerdefense;
+package me.funso.angtowerdefense.client.gui.game.monster;
 
 import java.awt.Graphics;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Random;
 import java.util.Timer;
@@ -11,44 +9,35 @@ import me.funso.angtowerdefense.client.Device;
 import me.funso.angtowerdefense.client.Main;
 import me.funso.angtowerdefense.client.astar.Map;
 import me.funso.angtowerdefense.client.astar.Point;
-import me.funso.angtowerdefense.client.gui.GameMain;
+import me.funso.angtowerdefense.client.gui.game.Paintable;
+import me.funso.angtowerdefense.client.gui.game.GameMain;
+import me.funso.angtowerdefense.client.gui.game.TimerSettable;
 import me.funso.angtowerdefense.client.gui.timer.MoveTimer;
 
-public class Monster {
+public abstract class Monster implements Paintable, TimerSettable {
 	
-	private int x,y;
-	private String route, newRoute;
-	private int i;
-	private int[] move;
-	private int size_x,size_y;
-	private int start_x,start_y;
+	int x,y;
+	String route, newRoute;
+	int i;
+	int[] move;
+	int size_x,size_y;
+	int start_x,start_y;
 
-	private final int type;			//idx
-	private String name;			//name
-	private int armor, speed, hp;	//
+	String name;
+	int armor, speed, hp;
 	
 	Point start;
 	
 	Timer jobScheduler;
 	MoveTimer moveTimer;
-	
-	public Monster(int type, char[][] tileType, int index) throws IOException, InterruptedException {
-		this.type = type;
-		
+
+	public Monster() throws IOException, InterruptedException {
 		route = astar();
 		move = new int[route.length()];
 		i=0;
 		start_x = start.x;
 		start_y = start.y;
 		size_x = size_y = 0;
-
-		MonsterInfo info = Main.c.monsterInfo(type).info;
-		hp = info.hp;
-		armor = info.armor;
-		speed = info.speed;
-		name = info.name;
-
-		setTimer(index);
 	}
 	
 	public void cancelTimer() {
@@ -56,9 +45,9 @@ public class Monster {
 		moveTimer.cancel();
 	}
 	
-	public void setTimer(int index) {
+	public void setTimer() {
 		jobScheduler = new Timer(true);
-		moveTimer = new MoveTimer(this, index);
+		moveTimer = new MoveTimer(this);
 		jobScheduler.scheduleAtFixedRate(moveTimer, 100, speed/4);
 	}
 	
@@ -182,7 +171,7 @@ public class Monster {
 		return true;
 	}
 	
-	public void drawMonster(Graphics g) {
+	public void paint(Graphics g) {
 		if(size_x == 0) {
 			size_x = g.getFontMetrics().stringWidth("M");
 			size_y = g.getFontMetrics().getHeight()/3*2;
@@ -221,11 +210,6 @@ public class Monster {
 	}
 	
 	public String astar() throws IOException, InterruptedException {
-		/*File file = new File("/Users/baek/Documents/workspace/AngTowerDefense/stage2.txt");
-		FileInputStream input = new FileInputStream(file);
-		byte buf[] = new byte[input.available()];
-		input.read(buf);
-		input.close();*/
 
 		Map map = new Map(Main.c.loadMap(GameMain.level).map);
 		start = map.find('S');

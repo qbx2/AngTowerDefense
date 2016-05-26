@@ -1,44 +1,39 @@
-package me.funso.angtowerdefense;
+package me.funso.angtowerdefense.client.gui.game.tower;
 
 
 import java.awt.Graphics;
+import java.sql.Time;
 import java.util.Timer;
 
 import me.funso.angtowerdefense.client.Device;
-import me.funso.angtowerdefense.client.gui.GameMain;
+import me.funso.angtowerdefense.client.gui.game.Game;
+import me.funso.angtowerdefense.client.gui.game.GameMain;
+import me.funso.angtowerdefense.client.gui.game.Paintable;
+import me.funso.angtowerdefense.client.gui.game.TimerSettable;
+import me.funso.angtowerdefense.client.gui.game.monster.Monster;
+import me.funso.angtowerdefense.client.gui.game.monster.MonsterManager;
 import me.funso.angtowerdefense.client.gui.timer.AttackTimer;
 
-public class Tower {
+public abstract class Tower implements Paintable, TimerSettable {
 	
-	private int r_x,r_y;		//tile's center xy
-	private int size;			//xy size;
-	private int x,y;			//index in map;
+	int r_x,r_y;		//tile's center xy
+	int size;			//xy size;
+	int x,y;			//index in map;
 
-	private int type;		//idx
-	private String name;
-	private int damage, attack_speed, attack_range;
-	private Monster target;
+	String name;
+	int damage, attack_speed, attack_range;
+	Monster target;
 	public int cost;		//cost, unlock_level
 
 	AttackTimer attackTimer;
     Timer jobScheduler;
 	
-	public Tower(int x, int y, int r_x, int r_y, int type) {
+	public Tower(int x, int y, int r_x, int r_y) {
 		this.x = x;
 		this.y = y;
 		this.r_x = r_x;
 		this.r_y = r_y;
 		size = Device.dim.height/40;
-		
-		this.type = type;
-		//use type(idx), load below values from db
-		cost = GameMain.towerInfo[type].cost;
-		attack_range = size*GameMain.towerInfo[type].attack_range;
-		attack_speed = GameMain.towerInfo[type].attack_speed;
-		damage = GameMain.towerInfo[type].damage;
-		name = GameMain.towerInfo[type].name;
-		
-		setTimer();
 	}
 	
 	public void cancelTimer() {
@@ -65,9 +60,10 @@ public class Tower {
 				if(target.damaged(damage)) {		//didn't die
 
 				} else {		//die
-					for(int i=0; i<Game.monster.length; i++) {
-						if(Game.monster[i] == target) {
-							Game.monster[i] = null;
+					for(int i = 0; i< Game.monsterManager.monsters.size(); i++) {
+						if(MonsterManager.monsters.get(i) == target) {
+							MonsterManager.monsters.remove(i);
+							target = null;
 							return;
 						}
 					}
@@ -76,16 +72,17 @@ public class Tower {
 			}
 		}
 		
-		for(int i=0; i<Game.monster.length; i++) {
-			if(Game.monster[i] != null) {
-				monster_x = Game.monster[i].getX();
-				monster_y = Game.monster[i].getY();
+		for(int i=0; i<MonsterManager.monsters.size(); i++) {
+			if(MonsterManager.monsters.get(i) != null) {
+				monster_x = MonsterManager.monsters.get(i).getX();
+				monster_y = MonsterManager.monsters.get(i).getY();
 				if(attack_range >= Math.sqrt(Math.pow(monster_x-r_x, 2) + Math.pow(monster_y-r_y, 2))) {
-					target = Game.monster[i];
+					target = MonsterManager.monsters.get(i);
 					if(target.damaged(damage)) {
 						
 					} else {		//die
-						Game.monster[i] = null;
+						MonsterManager.monsters.remove(i);
+						target = null;
 					}
 					return;
 				}
@@ -95,15 +92,8 @@ public class Tower {
 		target = null;
 	}
 	
-	public void drawTower(Graphics g) {
+	public void paint(Graphics g) {
 		g.drawArc(r_x-size/2, r_y-size/2, size, size, 0, 360);
 	}
-	
-	public void setType(int type) {
-		this.type = type;
-	}
-	
-	public int getType() {
-		return type;
-	}
+
 }

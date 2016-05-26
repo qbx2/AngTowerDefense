@@ -1,4 +1,4 @@
-package me.funso.angtowerdefense.client.gui;
+package me.funso.angtowerdefense.client.gui.game;
 
 import java.awt.Container;
 import java.awt.Font;
@@ -11,28 +11,23 @@ import java.io.IOException;
 import java.util.Timer;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import me.funso.angtowerdefense.Game;
-import me.funso.angtowerdefense.Tower;
 import me.funso.angtowerdefense.TowerInfo;
 import me.funso.angtowerdefense.client.Device;
 import me.funso.angtowerdefense.client.Main;
+import me.funso.angtowerdefense.client.gui.StageSelection;
 import me.funso.angtowerdefense.client.gui.timer.DrawTimer;
 
-public class GameMain extends Container implements ActionListener, MouseListener {
+public class GameMain extends Container implements ActionListener, MouseListener, Paintable {
 	
 	final int TOWER_NUM = 10;
-	
-	JFrame frame;
+
 	private StageSelection prev;
 	private JButton btn[];
 	
 	private JButton[] towerBuyBtn;
 	public static TowerInfo[] towerInfo;
-	
-	private Graphics g;
 	
 	private Game map;
 	
@@ -48,14 +43,13 @@ public class GameMain extends Container implements ActionListener, MouseListener
 	
 	public GameMain(StageSelection prev, int level) throws IOException, InterruptedException {
 		this.prev = prev;
-		frame = prev.frame;
 		this.level = level;
 		game_speed = 1;
 		init();
 	}
 	
 	public void init() throws IOException, InterruptedException {
-		frame.setContentPane(this);
+		Main.frame.setContentPane(this);
 
 		mineral = 30;
 		life = 20;
@@ -74,7 +68,7 @@ public class GameMain extends Container implements ActionListener, MouseListener
 						Device.dim.height/70 + Device.dim.height/100 + (Device.dim.width - Device.dim.height)/5*i);
 				towerBuyBtn[i*5+j].setFont(new Font("궁서",Font.BOLD,Device.dim.height/60));
 				towerBuyBtn[i*5+j].setHorizontalAlignment(JLabel.CENTER);
-				frame.add(towerBuyBtn[i*5+j]);
+				Main.frame.add(towerBuyBtn[i*5+j]);
 				towerBuyBtn[i*5+j].addActionListener(this);
 			}
 		}
@@ -101,15 +95,15 @@ public class GameMain extends Container implements ActionListener, MouseListener
 					Device.dim.height/100*82);
 			btn[i].setFont(new Font("궁서",Font.BOLD,Device.dim.height/60));
 			btn[i].setHorizontalAlignment(JLabel.CENTER);
-			frame.add(btn[i]);
+			Main.frame.add(btn[i]);
 			btn[i].addActionListener(this);
 		}
 		
 		setTimer();
 	    
 	    this.addMouseListener(this);
-	    
-		frame.setVisible(true);
+
+		Main.frame.setVisible(true);
 	}
 	
 	public void setTimer() {
@@ -122,7 +116,7 @@ public class GameMain extends Container implements ActionListener, MouseListener
 	public void paint(Graphics g) {
 		super.paint(g);
 		
-		map.drawMap(g);
+		map.paint(g);
 		
 		//info window
 		g.drawRect(Device.dim.height + Device.dim.height/70 - Device.dim.height/100*4,
@@ -187,31 +181,18 @@ public class GameMain extends Container implements ActionListener, MouseListener
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
 		clickEvent(e);
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mousePressed(MouseEvent e) {}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseReleased(MouseEvent e) {}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseEntered(MouseEvent e) {}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseExited(MouseEvent e) {}
 }

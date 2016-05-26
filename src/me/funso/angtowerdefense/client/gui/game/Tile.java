@@ -1,12 +1,15 @@
-package me.funso.angtowerdefense;
+package me.funso.angtowerdefense.client.gui.game;
 
 
 import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
 
+import me.funso.angtowerdefense.TileType;
 import me.funso.angtowerdefense.client.Device;
+import me.funso.angtowerdefense.client.gui.game.tower.Tower;
+import me.funso.angtowerdefense.client.gui.game.tower.TowerManager;
 
-public class Tile {
+public class Tile implements Paintable {
 	
 	private int r_x,r_y;		//tile's center xy
 	private int size;			//xy size;
@@ -26,21 +29,21 @@ public class Tile {
 			calcXYSize();
 	}
 
-	public Tower buildTower(int tower_type) {
+	public Tower buildTower(int towerType) {
 		if(type == TileType.ROAD || tower != null) {
 			return null;
 		} else {
-			tower = new Tower(x, y, r_x, r_y, tower_type);
+			tower = Game.towerManager.buildTower(x,y,r_x,r_y,towerType);
 		}
 		return tower;
 	}
 	
-	public void drawTile(Graphics g) {
+	public void paint(Graphics g) {
 		if(type == TileType.NORMAL) {
 			g.drawRect(r_x-size/2, r_y-size/2, size, size);
 		}
 		if(tower != null) {
-			tower.drawTower(g);
+			tower.paint(g);
 		}
 	}
 	

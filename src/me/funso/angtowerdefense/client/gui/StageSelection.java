@@ -16,7 +16,6 @@ import me.funso.angtowerdefense.client.Main;
 public class StageSelection implements ActionListener {
 	
 	Login prev;
-	JFrame frame;
 	private Container container;
 	private JLabel label;
 	private JButton stageBtn[][];
@@ -29,7 +28,6 @@ public class StageSelection implements ActionListener {
 	
 	public StageSelection(Login prev) {
 		this.prev = prev;
-		frame = prev.frame;
 		container = new Container();
 		stageBtn = new JButton[ROW][COLUMN];
 		currentPage = 0;
@@ -37,14 +35,14 @@ public class StageSelection implements ActionListener {
 	}
 	
 	public void init() {
-		frame.setContentPane(container);
+		Main.frame.setContentPane(container);
 		
 		label = new JLabel("SELECT STAGE");
 		label.setSize(Device.dim.width/2, Device.dim.height/8);
 		label.setLocation(Device.dim.width/4, Device.dim.height/25*2);
 		label.setFont(new Font("궁서",Font.BOLD,Device.dim.height/15));
 		label.setHorizontalAlignment(JLabel.CENTER);
-		frame.add(label);
+		Main.frame.add(label);
 		
 		for(int i=0; i<ROW; i++)
 			for(int j=0; j<COLUMN; j++) {
@@ -53,7 +51,7 @@ public class StageSelection implements ActionListener {
 				stageBtn[i][j].setLocation(Device.dim.width/11*(2*j+1), Device.dim.height/22*(5*i+6));
 				stageBtn[i][j].setFont(new Font("궁서",Font.BOLD,Device.dim.height/20));
 				stageBtn[i][j].setHorizontalAlignment(JButton.CENTER);
-				frame.add(stageBtn[i][j]);
+				Main.frame.add(stageBtn[i][j]);
 				stageBtn[i][j].addActionListener(this);
 			}
 
@@ -62,7 +60,7 @@ public class StageSelection implements ActionListener {
 		prevBtn.setLocation(Device.dim.width/36*11, Device.dim.height/12*9);
 		prevBtn.setFont(new Font("궁서",Font.BOLD,Device.dim.height/30));
 		prevBtn.setHorizontalAlignment(JButton.CENTER);
-		frame.add(prevBtn);
+		Main.frame.add(prevBtn);
 		prevBtn.addActionListener(this);
 
 		nextBtn = new JButton("NEXT");
@@ -70,7 +68,7 @@ public class StageSelection implements ActionListener {
 		nextBtn.setLocation(Device.dim.width/36*19, Device.dim.height/12*9);
 		nextBtn.setFont(new Font("궁서",Font.BOLD,Device.dim.height/30));
 		nextBtn.setHorizontalAlignment(JButton.CENTER);
-		frame.add(nextBtn);
+		Main.frame.add(nextBtn);
 		nextBtn.addActionListener(this);
 
 		backBtn = new JButton("MAIN");
@@ -78,7 +76,7 @@ public class StageSelection implements ActionListener {
 		backBtn.setLocation(Device.dim.width/36*27, Device.dim.height/12*9);
 		backBtn.setFont(new Font("궁서",Font.BOLD,Device.dim.height/30));
 		backBtn.setHorizontalAlignment(JButton.CENTER);
-		frame.add(backBtn);
+		Main.frame.add(backBtn);
 		backBtn.addActionListener(this);
 
 		skillBtn = new JButton("SKILL");
@@ -86,15 +84,15 @@ public class StageSelection implements ActionListener {
 		skillBtn.setLocation(Device.dim.width/36*3, Device.dim.height/12*9);
 		skillBtn.setFont(new Font("궁서",Font.BOLD,Device.dim.height/30));
 		skillBtn.setHorizontalAlignment(JButton.CENTER);
-		frame.add(skillBtn);
+		Main.frame.add(skillBtn);
 		skillBtn.addActionListener(this);
-		
-		frame.setVisible(true);
+
+		Main.frame.setVisible(true);
 		container.setVisible(true);
 	}
 	
 	public void resume() {
-		frame.setContentPane(container);
+		Main.frame.setContentPane(container);
 		container.setVisible(true);
 	}
 	

@@ -3,12 +3,15 @@ package me.funso.angtowerdefense.client;
 import java.io.IOException;
 
 import me.funso.angtowerdefense.User;
-import me.funso.angtowerdefense.client.gui.MainFrame;
+import me.funso.angtowerdefense.client.gui.MainMenu;
+
+import javax.swing.*;
 
 public class Main {
 	
 	public static Client c;
 	public static User user;
+	public static JFrame frame = new JFrame();
 	
 	public static void main(String args[]) throws InterruptedException {
 		
@@ -32,6 +35,9 @@ public class Main {
 			e.printStackTrace();
 		}*/
 
-		new MainFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
+		frame.setSize(Device.dim.width, Device.dim.height);
+		new MainMenu();
 	}
 }
