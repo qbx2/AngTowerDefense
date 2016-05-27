@@ -8,21 +8,21 @@ import me.funso.angtowerdefense.client.gui.game.GameMain;
 public class AttackTimer extends TimerTask {
 
 	Tower tower;
-	private int j;
+	private int i;
 	
 	public AttackTimer(Tower tower) {
-		j=1;
+		i=1;
 		this.tower = tower;
 	}
 	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		if(GameMain.game_speed*j >= 4) {
-			j=0;
+		if(GameMain.game_speed*i >= 4) {
+			i=0;
 			tower.attack();
 		}
-		j++;
+		i++;
 	}
 
 }

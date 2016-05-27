@@ -10,12 +10,12 @@ import me.funso.angtowerdefense.client.gui.game.GameMain;
 public class MonsterRegenTimer extends TimerTask {
 
 	private int i, j;
-	char[][] tileType;
+	private int type;
 	
-	public MonsterRegenTimer(int[] type, char[][] tileType) {
+	public MonsterRegenTimer(int type) {
 		i=0;
 		j=1;
-		this.tileType = tileType;
+		this.type = type;
 	}
 	
 	@Override
@@ -25,7 +25,7 @@ public class MonsterRegenTimer extends TimerTask {
 			j=0;
 			if(i < 30) {
 				try {
-					Game.monsterManager.regen(1);
+					Game.monsterManager.regen(type);
 						//modify later
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

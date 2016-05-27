@@ -35,7 +35,7 @@ public class Game implements Paintable, TimerSettable {
 	public void setTimer() {
 		jobScheduler = new Timer(true);
 
-	    regenTimer = new MonsterRegenTimer(null, tileType);
+	    regenTimer = new MonsterRegenTimer(1);
 	    jobScheduler.schedule(regenTimer, 100, 300/4);
 	}
 	
