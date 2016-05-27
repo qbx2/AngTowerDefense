@@ -17,7 +17,7 @@ import me.funso.angtowerdefense.server.Server;
 
 public class ReqLoginHandler {
 	private static void myAssert(boolean cond, String message, Param param) throws ResultSentException, IOException {
-		if(cond) {
+		if(!cond) {
 			PacketWriter.writeOp(param.dout, new OpResLogin(-1, message, null));
 			throw new ResultSentException();
 		}
