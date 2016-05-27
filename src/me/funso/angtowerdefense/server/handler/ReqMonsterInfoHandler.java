@@ -17,9 +17,19 @@ public class ReqMonsterInfoHandler {
 		int idx = op.idx;
 		System.out.println("ReqMonsterInfoHandler("+idx+")");
 		
-		PreparedStatement ps = MySQLConnector.prepareStatement("SELECT * FROM tbl_monster_info WHERE idx=?");
-		ps.setInt(1, idx);
-		ResultSet rs = ps.executeQuery();
-		PacketWriter.writeOp(param.dout, new OpResMonsterInfo(rs.next() ? new MonsterInfo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getInt(6)) : null));
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = MySQLConnector.prepareStatement("SELECT * FROM tbl_monster_info WHERE idx=?");
+			ps.setInt(1, idx);
+			rs = ps.executeQuery();
+			PacketWriter.writeOp(param.dout, new OpResMonsterInfo(rs.next() ? new MonsterInfo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getInt(6)) : null));
+		} finally {
+			if(ps != null)
+				ps.close();
+			if(rs != null)
+				rs.close();
+		}
 	}
 }

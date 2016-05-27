@@ -13,8 +13,18 @@ import me.funso.angtowerdefense.server.MySQLConnector;
 
 public class ReqStageCountHandler {
 	public static void p(Param param, OpReqStageCount op) throws IOException, SQLException {
-		PreparedStatement ps = MySQLConnector.prepareStatement("SELECT COUNT(*) FROM tbl_stage");
-		ResultSet rs = ps.executeQuery();
-		PacketWriter.writeOp(param.dout, new OpResStageCount(rs.next() ? rs.getInt(1) : -1));
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = MySQLConnector.prepareStatement("SELECT COUNT(*) FROM tbl_stage");
+			rs = ps.executeQuery();
+			PacketWriter.writeOp(param.dout, new OpResStageCount(rs.next() ? rs.getInt(1) : -1));
+		} finally {
+			if(ps != null)
+				ps.close();
+			if(rs != null)
+				rs.close();
+		}
 	}
 }

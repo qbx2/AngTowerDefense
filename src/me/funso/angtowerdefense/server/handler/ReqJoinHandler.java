@@ -59,13 +59,20 @@ public class ReqJoinHandler {
 	}
 	
 	private static boolean join(String user_id, String salt, String user_pw, String nickname) throws SQLException, UnsupportedEncodingException {
-		PreparedStatement ps = MySQLConnector.prepareStatement("INSERT INTO tbl_user (user_id, salt, user_pw, nickname) VALUES (?, ?, ?, ?)");
-		ps.setString(1, user_id);
-		ps.setString(2, salt);
-		ps.setString(3, SHACalculator.calculate((salt + user_pw).getBytes("UTF-8")));
-		ps.setString(4, nickname);
+		PreparedStatement ps = null;
 		
-		return ps.executeUpdate() == 1;
+		try {
+			ps = MySQLConnector.prepareStatement("INSERT INTO tbl_user (user_id, salt, user_pw, nickname) VALUES (?, ?, ?, ?)");
+			ps.setString(1, user_id);
+			ps.setString(2, salt);
+			ps.setString(3, SHACalculator.calculate((salt + user_pw).getBytes("UTF-8")));
+			ps.setString(4, nickname);
+			
+			return ps.executeUpdate() == 1;
+		} finally {
+			if(ps != null)
+				ps.close();
+		}
 	}
 	
 	public static void p(Param param, OpReqJoin op) throws IOException, SQLException, ResultSentException {

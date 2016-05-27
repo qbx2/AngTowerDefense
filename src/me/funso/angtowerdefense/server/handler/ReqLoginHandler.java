@@ -24,10 +24,20 @@ public class ReqLoginHandler {
 	}
 
 	private static ResultSet getUser(String user_id) throws SQLException {
-		PreparedStatement ps = MySQLConnector.prepareStatement("SELECT * FROM tbl_user WHERE user_id=?"); // case insensitive
-		ps.setString(1, user_id);
-		ResultSet rs = ps.executeQuery();
-		return rs;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = MySQLConnector.prepareStatement("SELECT * FROM tbl_user WHERE user_id=?"); // case insensitive
+			ps.setString(1, user_id);
+			rs = ps.executeQuery();
+			return rs;
+		} finally {
+			if(ps != null)
+				ps.close();
+			if(rs != null)
+				rs.close();
+		}
 	}
 
 	private static boolean checkPassword(String encrypted_user_pw, String salt, String user_pw) throws UnsupportedEncodingException {
