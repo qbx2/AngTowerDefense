@@ -12,6 +12,8 @@ import me.funso.angtowerdefense.client.api.Join;
 import me.funso.angtowerdefense.client.api.LoadMap;
 import me.funso.angtowerdefense.client.api.Login;
 import me.funso.angtowerdefense.client.api.MonsterInfo;
+import me.funso.angtowerdefense.client.api.StageCount;
+import me.funso.angtowerdefense.client.api.StageInfo;
 import me.funso.angtowerdefense.client.api.TowerInfo;
 import me.funso.angtowerdefense.client.handler.AlertHandler;
 import me.funso.angtowerdefense.op.Op;
@@ -19,6 +21,8 @@ import me.funso.angtowerdefense.op.OpResJoin;
 import me.funso.angtowerdefense.op.OpResLoadMap;
 import me.funso.angtowerdefense.op.OpResLogin;
 import me.funso.angtowerdefense.op.OpResMonsterInfo;
+import me.funso.angtowerdefense.op.OpResStageCount;
+import me.funso.angtowerdefense.op.OpResStageInfo;
 import me.funso.angtowerdefense.op.OpResTowerInfo;
 import me.funso.angtowerdefense.packet.Packet;
 import me.funso.angtowerdefense.packet.PacketOpcode;
@@ -92,6 +96,14 @@ public class Client {
 
 	public OpResTowerInfo towerInfo(int idx) throws IOException, InterruptedException {
 		return TowerInfo.p(param, idx);
+	}
+
+	public OpResStageCount stageCount() throws IOException, InterruptedException {
+		return StageCount.p(param);
+	}
+
+	public OpResStageInfo stageInfo(int idx) throws IOException, InterruptedException {
+		return StageInfo.p(param, idx);
 	}
 
 	public OpResLoadMap loadMap(int idx) throws IOException, InterruptedException {

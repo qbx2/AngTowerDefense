@@ -1,12 +1,12 @@
 package me.funso.angtowerdefense;
 
 import java.awt.Graphics;
-import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 
 import me.funso.angtowerdefense.client.Main;
+import me.funso.angtowerdefense.client.astar.Point;
 import me.funso.angtowerdefense.client.gui.timer.MonsterRegenTimer;
 
 public class Game {
