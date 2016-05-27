@@ -16,7 +16,7 @@ import me.funso.angtowerdefense.server.Server;
 
 public class ReqJoinHandler {
 	private static void myAssert(boolean cond, String message, Param param) throws ResultSentException, IOException {
-		if(cond) {
+		if(!cond) {
 			PacketWriter.writeOp(param.dout, new OpResJoin(-1, message));
 			throw new ResultSentException();
 		}
