@@ -1,27 +1,27 @@
-package me.funso.angtowerdefense;
+package me.funso.angtowerdefense.client.gui.game;
 
 import java.awt.Graphics;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 
+import me.funso.angtowerdefense.MapParser;
 import me.funso.angtowerdefense.client.Main;
-import me.funso.angtowerdefense.client.astar.Point;
+import me.funso.angtowerdefense.client.gui.game.monster.MonsterManager;
+import me.funso.angtowerdefense.client.gui.game.tower.Tower;
+import me.funso.angtowerdefense.client.gui.game.tower.TowerManager;
 import me.funso.angtowerdefense.client.gui.timer.MonsterRegenTimer;
 
-public class Game {
+public class Game implements Paintable, TimerSettable {
 
 	final int SIZE = 32;
-	
-	private char[][] tileType;
 	private Tile[][] tile;
-	
-	public static Monster[] monster;
-	private ArrayList<Tower> tower;
+	private char[][] tileType;
+
+	public static MonsterManager monsterManager;
+	public static TowerManager towerManager;
 
 	private int level;
-	
-    Point start;
 
     Timer jobScheduler;
 	MonsterRegenTimer regenTimer;
@@ -40,36 +40,38 @@ public class Game {
 	}
 	
 	public void cancelTimer() {
-		for(int i=0; i<tower.size(); i++) {
-			tower.get(i).cancelTimer();
+		for(int i=0; i<towerManager.towers.size(); i++) {
+			towerManager.towers.get(i).cancelTimer();
 		}
-		for(int i=0; i<monster.length; i++) {
-			if(monster[i] != null) {
-				monster[i].cancelTimer();
+		for(int i=0; i<monsterManager.monsters.size(); i++) {
+			if(monsterManager.monsters.get(i) != null) {
+				monsterManager.monsters.get(i).cancelTimer();
 			}
 		}
 	}
 	
 	public void buildTower(int x, int y, int type) {
 		Tower t = tile[x][y].buildTower(type);
-		tower.add(t);
+		towerManager.towers.add(t);
 	}
+
+
 	
 	public void init() throws IOException, InterruptedException {
-		monster = new Monster[30];
-		tower = new ArrayList<Tower>();
+		monsterManager = new MonsterManager(tileType);
+		towerManager = new TowerManager();
 
 		tile = getMap();
 	}
 	
-	public void drawMap(Graphics g) {
+	public void paint(Graphics g) {
 		for(int i=0; i<SIZE; i++)
 			for(int j=0; j<SIZE; j++)
-				tile[i][j].drawTile(g);
+				tile[i][j].paint(g);
 		
-		for(int i=0; i<monster.length; i++)
-			if(monster[i] != null)
-				monster[i].drawMonster(g);
+		for(int i=0; i<monsterManager.monsters.size(); i++)
+			if(monsterManager.monsters.get(i) != null)
+				monsterManager.monsters.get(i).paint(g);
 	}
 	
 	public Tile[][] getMap() throws IOException, InterruptedException {

@@ -1,5 +1,7 @@
 package me.funso.angtowerdefense;
 
+import me.funso.angtowerdefense.client.gui.game.Tile;
+
 import java.io.UnsupportedEncodingException;
 
 public class MapParser {

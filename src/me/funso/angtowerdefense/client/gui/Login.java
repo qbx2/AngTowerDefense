@@ -18,7 +18,6 @@ import me.funso.angtowerdefense.op.OpResLogin;
 public class Login implements ActionListener {
 	
 	MainMenu prev;
-	JFrame frame;
 	private Container container;
 	private JLabel idLabel, pwdLabel, login;
 	private JTextField idText;
@@ -27,34 +26,33 @@ public class Login implements ActionListener {
 	
 	public Login(MainMenu prev) {
 		this.prev = prev;
-		frame = prev.frame;
 		container = new Container();
 		init();
 	}
 	
 	public void init() {
-		frame.setContentPane(container);
+		Main.frame.setContentPane(container);
 		
 		login = new JLabel("LOGIN");
 		login.setSize(Device.dim.width/2, Device.dim.height/10);
 		login.setLocation(Device.dim.width/4, Device.dim.height/25*3);
 		login.setFont(new Font("궁서",Font.BOLD,Device.dim.height/10));
 		login.setHorizontalAlignment(JLabel.CENTER);
-		frame.add(login);
+		Main.frame.add(login);
 		
 		idLabel = new JLabel("ID");
 		idLabel.setSize(Device.dim.width/7, Device.dim.height/10);
 		idLabel.setLocation(Device.dim.width/16*4, Device.dim.height/25*8);
 		idLabel.setFont(new Font("궁서",Font.BOLD,Device.dim.height/20));
 		idLabel.setHorizontalAlignment(JLabel.RIGHT);
-		frame.add(idLabel);
+		Main.frame.add(idLabel);
 		
 		idText = new JTextField(20);
 		idText.setSize(Device.dim.width/4, Device.dim.height/10);
 		idText.setLocation(Device.dim.width/32*15, Device.dim.height/25*8);
 		idText.setFont(new Font("궁서",Font.BOLD,Device.dim.height/20));
 		idText.setHorizontalAlignment(JTextField.CENTER);
-		frame.add(idText);
+		Main.frame.add(idText);
 		idText.addActionListener(this);
 		
 		pwdLabel = new JLabel("PW");
@@ -62,7 +60,7 @@ public class Login implements ActionListener {
 		pwdLabel.setLocation(Device.dim.width/16*4, Device.dim.height/25*11);
 		pwdLabel.setFont(new Font("궁서",Font.BOLD,Device.dim.height/20));
 		pwdLabel.setHorizontalAlignment(JLabel.RIGHT);
-		frame.add(pwdLabel);
+		Main.frame.add(pwdLabel);
 		
 		pwd = new JPasswordField(20);
 		pwd.setEchoChar('*');
@@ -70,28 +68,28 @@ public class Login implements ActionListener {
 		pwd.setLocation(Device.dim.width/32*15, Device.dim.height/25*11);
 		pwd.setFont(new Font("궁서",Font.BOLD,Device.dim.height/20));
 		pwd.setHorizontalAlignment(JPasswordField.CENTER);
-		frame.add(pwd);
+		Main.frame.add(pwd);
 		pwd.addActionListener(this);
 		
 		ok = new JButton("LOGIN");
 		ok.setSize(Device.dim.width/6, Device.dim.height/15);
 		ok.setLocation(Device.dim.width/12*5, Device.dim.height/50*31);
 		ok.setFont(new Font("궁서",Font.BOLD,Device.dim.height/30));
-		frame.add(ok);
+		Main.frame.add(ok);
 		ok.addActionListener(this);
 		
 		back = new JButton("BACK");
 		back.setSize(Device.dim.width/6, Device.dim.height/15);
 		back.setLocation(Device.dim.width/4*3, Device.dim.height/5*4);
 		back.setFont(new Font("궁서",Font.BOLD,Device.dim.height/30));
-		frame.add(back);
+		Main.frame.add(back);
 		back.addActionListener(this);
 		
 		toMain(false);
 	}
 	
 	public void resume() {
-		frame.setContentPane(container);
+		Main.frame.setContentPane(container);
 		container.setVisible(true);
 	}
 	

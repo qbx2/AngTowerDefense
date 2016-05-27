@@ -16,7 +16,6 @@ import me.funso.angtowerdefense.op.OpResLogin;
 
 public class LoginResult implements ActionListener {
 	Login prev;
-	JFrame frame;
 	private JLabel label;
 	private JButton button;
 	private Container container;
@@ -24,7 +23,6 @@ public class LoginResult implements ActionListener {
 	
 	public LoginResult(OpResLogin opResLogin, Login prev) {
 		this.prev = prev;
-		frame = prev.frame;
 		this.opResLogin = opResLogin;
 		
 		if(opResLogin.errorCode == 0) {
@@ -37,24 +35,24 @@ public class LoginResult implements ActionListener {
 	}
 	
 	public void init() {
-		frame.setContentPane(container);
+		Main.frame.setContentPane(container);
 		
 		label = new JLabel(opResLogin.message);
 		label.setFont(new Font("궁서",Font.BOLD,Device.dim.height/30));
 		label.setSize(Device.dim.width/2, Device.dim.height/4);
 		label.setLocation(Device.dim.width/4, Device.dim.height/25*4);
 		label.setHorizontalAlignment(JLabel.CENTER);
-		frame.add(label);
+		Main.frame.add(label);
 
 		button = new JButton("BACK");
 		button.setSize(Device.dim.width/4, Device.dim.height/10);
 		button.setLocation(Device.dim.width/8*3, Device.dim.height/25*13);
 		button.setFont(new Font("궁서",Font.BOLD,Device.dim.height/15));
 		button.setHorizontalAlignment(JLabel.CENTER);
-		frame.add(button);
+		Main.frame.add(button);
 		button.addActionListener(this);
-		
-		frame.setVisible(true);
+
+		Main.frame.setVisible(true);
 		container.setVisible(true);
 	}
 
