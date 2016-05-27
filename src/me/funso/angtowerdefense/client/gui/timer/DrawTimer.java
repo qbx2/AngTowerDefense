@@ -2,7 +2,7 @@ package me.funso.angtowerdefense.client.gui.timer;
 
 import java.util.TimerTask;
 
-import me.funso.angtowerdefense.client.gui.GameMain;
+import me.funso.angtowerdefense.client.gui.game.GameMain;
 
 public class DrawTimer extends TimerTask {
 	

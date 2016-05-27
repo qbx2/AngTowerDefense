@@ -12,6 +12,8 @@ import me.funso.angtowerdefense.op.OpReqJoin;
 import me.funso.angtowerdefense.op.OpReqLoadMap;
 import me.funso.angtowerdefense.op.OpReqLogin;
 import me.funso.angtowerdefense.op.OpReqMonsterInfo;
+import me.funso.angtowerdefense.op.OpReqStageCount;
+import me.funso.angtowerdefense.op.OpReqStageInfo;
 import me.funso.angtowerdefense.op.OpReqTowerInfo;
 import me.funso.angtowerdefense.packet.Packet;
 import me.funso.angtowerdefense.packet.PacketReader;
@@ -20,6 +22,8 @@ import me.funso.angtowerdefense.server.handler.ReqJoinHandler;
 import me.funso.angtowerdefense.server.handler.ReqLoadMapHandler;
 import me.funso.angtowerdefense.server.handler.ReqLoginHandler;
 import me.funso.angtowerdefense.server.handler.ReqMonsterInfoHandler;
+import me.funso.angtowerdefense.server.handler.ReqStageCountHandler;
+import me.funso.angtowerdefense.server.handler.ReqStageInfoHandler;
 import me.funso.angtowerdefense.server.handler.ReqTowerInfoHandler;
 
 public class SocketHandler extends Thread {
@@ -67,6 +71,12 @@ public class SocketHandler extends Thread {
 					break;
 				case REQ_TOWER_INFO:
 					ReqTowerInfoHandler.p(param, (OpReqTowerInfo) op);
+				case REQ_STAGE_INFO:
+					ReqStageInfoHandler.p(param, (OpReqStageInfo) op);
+					break;
+				case REQ_STAGE_COUNT:
+					ReqStageCountHandler.p(param, (OpReqStageCount) op);
+					break;
 				case INSTALL_TOWER:
 					//installTower(packet);
 					break;
