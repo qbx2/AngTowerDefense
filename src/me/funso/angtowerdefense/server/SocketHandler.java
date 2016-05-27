@@ -25,6 +25,7 @@ import me.funso.angtowerdefense.server.handler.ReqMonsterInfoHandler;
 import me.funso.angtowerdefense.server.handler.ReqStageCountHandler;
 import me.funso.angtowerdefense.server.handler.ReqStageInfoHandler;
 import me.funso.angtowerdefense.server.handler.ReqTowerInfoHandler;
+import me.funso.angtowerdefense.server.handler.ResultSentException;
 
 public class SocketHandler extends Thread {
 	Socket s;
@@ -44,50 +45,53 @@ public class SocketHandler extends Thread {
 				Op op = packet.readOp();
 				Param param = new Param(s, din, dout);
 				
-				switch(op.getPacketOpcode()) {
-				case ALERT: // fatal error, extra is UTF8Bytes
-					AlertHandler.p(param, (OpAlert) op);
-					break;
-				case REQ_LOGIN:
-					ReqLoginHandler.p(param, (OpReqLogin) op);
-					break;
-				case REQ_JOIN:
-					ReqJoinHandler.p(param, (OpReqJoin) op);
-					break;
-				case REQ_START_GAME:
-					//startGame(packet);
-					break;
-				case REQ_SAVE_GAME:
-					//saveGame(packet);
-					break;
-				case REQ_LOAD_GAME:
-					//loadGame(packet);
-					break;
-				case REQ_LOAD_MAP:
-					ReqLoadMapHandler.p(param, (OpReqLoadMap) op);
-					break;
-				case REQ_MONSTER_INFO:
-					ReqMonsterInfoHandler.p(param, (OpReqMonsterInfo) op);
-					break;
-				case REQ_TOWER_INFO:
-					ReqTowerInfoHandler.p(param, (OpReqTowerInfo) op);
-				case REQ_STAGE_INFO:
-					ReqStageInfoHandler.p(param, (OpReqStageInfo) op);
-					break;
-				case REQ_STAGE_COUNT:
-					ReqStageCountHandler.p(param, (OpReqStageCount) op);
-					break;
-				case INSTALL_TOWER:
-					//installTower(packet);
-					break;
-				case REQ_UPGRADE:
-					//upgrade(packet);
-					break;
-				default:
-					// not implemented
-					System.out.println("Not Implemented Opcode - " + op.getPacketOpcode().ordinal());
-					break;
-				
+				try {
+					switch(op.getPacketOpcode()) {
+					case ALERT: // fatal error, extra is UTF8Bytes
+						AlertHandler.p(param, (OpAlert) op);
+						break;
+					case REQ_LOGIN:
+						ReqLoginHandler.p(param, (OpReqLogin) op);
+						break;
+					case REQ_JOIN:
+						ReqJoinHandler.p(param, (OpReqJoin) op);
+						break;
+					case REQ_START_GAME:
+						//startGame(packet);
+						break;
+					case REQ_SAVE_GAME:
+						//saveGame(packet);
+						break;
+					case REQ_LOAD_GAME:
+						//loadGame(packet);
+						break;
+					case REQ_LOAD_MAP:
+						ReqLoadMapHandler.p(param, (OpReqLoadMap) op);
+						break;
+					case REQ_MONSTER_INFO:
+						ReqMonsterInfoHandler.p(param, (OpReqMonsterInfo) op);
+						break;
+					case REQ_TOWER_INFO:
+						ReqTowerInfoHandler.p(param, (OpReqTowerInfo) op);
+					case REQ_STAGE_INFO:
+						ReqStageInfoHandler.p(param, (OpReqStageInfo) op);
+						break;
+					case REQ_STAGE_COUNT:
+						ReqStageCountHandler.p(param, (OpReqStageCount) op);
+						break;
+					case INSTALL_TOWER:
+						//installTower(packet);
+						break;
+					case REQ_UPGRADE:
+						//upgrade(packet);
+						break;
+					default:
+						// not implemented
+						System.out.println("Not Implemented Opcode - " + op.getPacketOpcode().ordinal());
+						break;
+					}
+				} catch (ResultSentException e) {
+					// ignore
 				}
 			}
 		} catch (SQLException | ClassNotFoundException e) {
