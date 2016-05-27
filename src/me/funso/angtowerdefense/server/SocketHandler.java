@@ -47,7 +47,7 @@ public class SocketHandler extends Thread {
 				
 				try {
 					switch(op.getPacketOpcode()) {
-					case ALERT: // fatal error, extra is UTF8Bytes
+					case ALERT:
 						AlertHandler.p(param, (OpAlert) op);
 						break;
 					case REQ_LOGIN:

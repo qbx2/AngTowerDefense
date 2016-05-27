@@ -4,7 +4,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import me.funso.angtowerdefense.op.Op;
-import me.funso.angtowerdefense.op.OpResJoin;
 
 public class PacketWriter {
 	public static void write(DataOutputStream out, Packet p) throws IOException {

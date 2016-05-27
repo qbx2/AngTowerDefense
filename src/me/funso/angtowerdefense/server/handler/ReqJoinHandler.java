@@ -23,19 +23,39 @@ public class ReqJoinHandler {
 	}
 
 	private static boolean checkUserId(String user_id) throws SQLException {
-		PreparedStatement ps = MySQLConnector.prepareStatement("SELECT count(*) FROM tbl_user WHERE user_id=?"); // case insensitive
-		ps.setString(1, user_id);
-		ResultSet rs = ps.executeQuery();
-		rs.next();
-		return rs.getInt(1) > 0;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = MySQLConnector.prepareStatement("SELECT count(*) FROM tbl_user WHERE user_id=?"); // case insensitive
+			ps.setString(1, user_id);
+			rs = ps.executeQuery();
+			rs.next();
+			return rs.getInt(1) > 0;
+		} finally {
+			if(rs != null)
+				rs.close();
+			if(ps != null)
+				ps.close();
+		}
 	}
 
 	private static boolean checkNickname(String nickname) throws SQLException {
-		PreparedStatement ps = MySQLConnector.prepareStatement("SELECT count(*) FROM tbl_user WHERE nickname=?"); // case insensitive
-		ps.setString(1, nickname);
-		ResultSet rs = ps.executeQuery();
-		rs.next();
-		return rs.getInt(1) > 0;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = MySQLConnector.prepareStatement("SELECT count(*) FROM tbl_user WHERE nickname=?"); // case insensitive
+			ps.setString(1, nickname);
+			rs = ps.executeQuery();
+			rs.next();
+			return rs.getInt(1) > 0;
+		} finally {
+			if(rs != null)
+				rs.close();
+			if(ps != null)
+				ps.close();
+		}
 	}
 	
 	private static boolean join(String user_id, String salt, String user_pw, String nickname) throws SQLException, UnsupportedEncodingException {
