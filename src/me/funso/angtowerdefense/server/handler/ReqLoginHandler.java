@@ -1,6 +1,7 @@
 package me.funso.angtowerdefense.server.handler;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,62 +10,57 @@ import me.funso.angtowerdefense.Param;
 import me.funso.angtowerdefense.User;
 import me.funso.angtowerdefense.op.OpReqLogin;
 import me.funso.angtowerdefense.op.OpResLogin;
-import me.funso.angtowerdefense.packet.Packet;
 import me.funso.angtowerdefense.packet.PacketWriter;
 import me.funso.angtowerdefense.server.MySQLConnector;
 import me.funso.angtowerdefense.server.SHACalculator;
 import me.funso.angtowerdefense.server.Server;
 
 public class ReqLoginHandler {
+	private static void myAssert(boolean cond, String message, Param param) throws ResultSentException, IOException {
+		if(cond) {
+			PacketWriter.writeOp(param.dout, new OpResLogin(-1, message, null));
+			throw new ResultSentException();
+		}
+	}
+
+	private static ResultSet getUser(String user_id) throws SQLException {
+		PreparedStatement ps = MySQLConnector.prepareStatement("SELECT * FROM tbl_user WHERE user_id=?"); // case insensitive
+		ps.setString(1, user_id);
+		ResultSet rs = ps.executeQuery();
+		return rs;
+	}
+
+	private static boolean checkPassword(String encrypted_user_pw, String salt, String user_pw) throws UnsupportedEncodingException {
+		return encrypted_user_pw.equals(SHACalculator.calculate((salt + user_pw).getBytes("UTF-8")));
+	}
 	
-	public static void p(Param param, OpReqLogin op) throws IOException, SQLException {	
+	public static void p(Param param, OpReqLogin op) throws IOException, SQLException, ResultSentException {	
 		String user_id = op.user_id;
 		String user_pw = op.user_pw;
 		
-		if(user_id.length() < 4) {
-			Packet p = new Packet();
-			p.writeOp(new OpResLogin(1, "user_id must be longer than or equal to 4.", null));
-			PacketWriter.write(param.dout, p);
-			return;
-		} else if(user_pw.length() < 4) {
-			Packet p = new Packet();
-			p.writeOp(new OpResLogin(2, "user_pw must be longer than or equal to 4.", null));
-			PacketWriter.write(param.dout, p);
-			return;
-		}
+		myAssert(user_id.length() >= 4, "user_id must be longer than or equal to 4.", param);
+		myAssert(user_pw.length() >= 4, "user_pw must be longer than or equal to 4.", param);
+		myAssert(!Server.session.containsKey(param.sock), "You're already logged in.", param);
 		
-		PreparedStatement ps = MySQLConnector.prepareStatement("SELECT * FROM tbl_user WHERE user_id=?"); // case insensitive
-		//ps.close();
-		ps.setString(1, user_id);
-		ResultSet rs = ps.executeQuery();
+		ResultSet rs = getUser(user_id);
+		myAssert(rs.next(), "Login failed", param);
 		
-		if(!rs.next()) {
-			System.out.println("Login failed.");
-			Packet p = new Packet();
-			p.writeOp(new OpResLogin(3, "Login failed.", null));
-			PacketWriter.write(param.dout, p);
-			return;
-		}
-		
+		String encrypted_user_pw = rs.getString("user_pw");
 		String salt = rs.getString("salt");
-		if(rs.getString("user_pw").equals(SHACalculator.calculate((salt + user_pw).getBytes("UTF-8")))) {
+		
+		if(checkPassword(encrypted_user_pw, salt, user_pw)) {
 			// login ok
 			User user = new User(rs.getString("user_id"), rs.getString("nickname"), rs.getInt("level"), rs.getInt("exp"), rs.getInt("gold"));
 			
+			// set session
 			Server.session.put(param.sock, user);
-			System.out.println("Login Success");
-			System.out.println(user);
+			//System.out.println("Login Success");
+			//System.out.println(user);
 			
-			Packet p = new Packet();
-			p.writeOp(new OpResLogin(0, null, user));
-			PacketWriter.write(param.dout, p);			
-			return;
+			PacketWriter.writeOp(param.dout, new OpResLogin(0, null, user));
+		} else {
+			PacketWriter.writeOp(param.dout, new OpResLogin(-1, "Login failed", null));
 		}
-		
-		System.out.println("Login failed.");
-		Packet p = new Packet();
-		p.writeOp(new OpResLogin(4, "Login failed.", null));
-		PacketWriter.write(param.dout, p);
 	}
 
 }

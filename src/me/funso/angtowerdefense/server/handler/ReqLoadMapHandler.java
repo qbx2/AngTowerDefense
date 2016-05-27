@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import me.funso.angtowerdefense.Param;
 import me.funso.angtowerdefense.op.OpReqLoadMap;
 import me.funso.angtowerdefense.op.OpResLoadMap;
-import me.funso.angtowerdefense.packet.Packet;
 import me.funso.angtowerdefense.packet.PacketWriter;
 import me.funso.angtowerdefense.server.MySQLConnector;
 
@@ -20,18 +19,6 @@ public class ReqLoadMapHandler {
 		PreparedStatement ps = MySQLConnector.prepareStatement("SELECT data FROM tbl_map WHERE idx=?");
 		ps.setInt(1, idx);
 		ResultSet rs = ps.executeQuery();
-		
-		if(rs.next()) {
-			String data = rs.getString(1);
-			Packet p = new Packet();
-			p.writeOp(new OpResLoadMap(data));
-			PacketWriter.write(param.dout, p);
-			return;
-		} else {
-			Packet p = new Packet();
-			p.writeOp(new OpResLoadMap(null));
-			PacketWriter.write(param.dout, p);
-			return;
-		}
+		PacketWriter.writeOp(param.dout, new OpResLoadMap(rs.next() ? rs.getString(1) : null));
 	}
 }
