@@ -15,7 +15,7 @@ public class StageInfo {
 		Packet p = new Packet();
 		p.writeOp(new OpReqStageInfo(idx));
 		PacketWriter.write(param.dout, p);
-		
+
 		OpResStageInfo op = (OpResStageInfo)param.qs.get(PacketOpcode.RES_STAGE_INFO).take();
 		
 		/*if(op.errorCode != 0) {

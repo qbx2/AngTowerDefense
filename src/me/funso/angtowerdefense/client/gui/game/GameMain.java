@@ -13,6 +13,7 @@ import java.util.Timer;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import me.funso.angtowerdefense.StageInfo;
 import me.funso.angtowerdefense.TowerInfo;
 import me.funso.angtowerdefense.client.Device;
 import me.funso.angtowerdefense.client.Main;
@@ -56,7 +57,7 @@ public class GameMain extends Container implements ActionListener, MouseListener
 		mineral = 30;
 		life = 20;
 
-		game = new Game(level);
+		game = new Game();
 
 		btn = new JButton[4];
 		towerInfo = new TowerInfo[TOWER_NUM];

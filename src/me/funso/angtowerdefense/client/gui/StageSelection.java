@@ -5,11 +5,13 @@ import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import me.funso.angtowerdefense.StageInfo;
 import me.funso.angtowerdefense.client.Device;
 import me.funso.angtowerdefense.client.Main;
 
@@ -25,6 +27,8 @@ public class StageSelection implements ActionListener {
 	final int ROW = 2;
 	final int COLUMN = 5;
 	int currentPage;
+
+	public static StageInfo[] stageInfo;
 	
 	public StageSelection(Login prev) {
 		this.prev = prev;
@@ -35,6 +39,13 @@ public class StageSelection implements ActionListener {
 	}
 	
 	public void init() {
+		try {
+			stageInfo = new StageInfo[Main.c.stageCount().count];
+			for (int i = 0; i < stageInfo.length; i++) {
+				stageInfo[i] = Main.c.stageInfo(i + 1).info;
+			}
+		} catch(Exception e) {}
+
 		Main.frame.setContentPane(container);
 		
 		label = new JLabel("SELECT STAGE");
@@ -94,10 +105,6 @@ public class StageSelection implements ActionListener {
 	public void resume() {
 		Main.frame.setContentPane(container);
 		container.setVisible(true);
-	}
-	
-	public void gameStart(int stageNum) {
-		container.setVisible(false);
 	}
 	
 	public void toMain() {

@@ -7,6 +7,7 @@ import java.util.Timer;
 
 import me.funso.angtowerdefense.MapParser;
 import me.funso.angtowerdefense.client.Main;
+import me.funso.angtowerdefense.client.gui.StageSelection;
 import me.funso.angtowerdefense.client.gui.game.monster.MonsterManager;
 import me.funso.angtowerdefense.client.gui.game.tower.Tower;
 import me.funso.angtowerdefense.client.gui.game.tower.TowerManager;
@@ -20,13 +21,10 @@ public class Game implements Paintable, TimerSettable {
 	public static MonsterManager monsterManager;
 	public static TowerManager towerManager;
 
-	private int level;
-
     Timer jobScheduler;
 	MonsterRegenTimer regenTimer;
 	
-	public Game(int level) throws IOException, InterruptedException {
-		this.level = level;
+	public Game() throws IOException, InterruptedException {
 		init();
 		setTimer();
 	}
@@ -53,8 +51,6 @@ public class Game implements Paintable, TimerSettable {
 		Tower t = tile[x][y].buildTower(type);
 		towerManager.towers.add(t);
 	}
-
-
 	
 	public void init() throws IOException, InterruptedException {
 		monsterManager = new MonsterManager();
@@ -74,6 +70,6 @@ public class Game implements Paintable, TimerSettable {
 	}
 	
 	public Tile[][] getMap() throws IOException, InterruptedException {
-		return MapParser.parse(Main.c.loadMap(level).map);
+		return MapParser.parse(Main.c.loadMap(StageSelection.stageInfo[GameMain.level-1].map_idx).map);
 	}
 }

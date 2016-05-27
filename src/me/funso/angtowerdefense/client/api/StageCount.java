@@ -15,7 +15,7 @@ public class StageCount {
 		Packet p = new Packet();
 		p.writeOp(new OpReqStageCount());
 		PacketWriter.write(param.dout, p);
-		
+
 		OpResStageCount op = (OpResStageCount)param.qs.get(PacketOpcode.RES_STAGE_COUNT).take();
 		
 		/*if(op.errorCode != 0) {
