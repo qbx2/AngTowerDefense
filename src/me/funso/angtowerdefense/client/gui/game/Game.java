@@ -16,7 +16,6 @@ public class Game implements Paintable, TimerSettable {
 
 	final int SIZE = 32;
 	private Tile[][] tile;
-	private char[][] tileType;
 
 	public static MonsterManager monsterManager;
 	public static TowerManager towerManager;
@@ -58,7 +57,7 @@ public class Game implements Paintable, TimerSettable {
 
 	
 	public void init() throws IOException, InterruptedException {
-		monsterManager = new MonsterManager(tileType);
+		monsterManager = new MonsterManager();
 		towerManager = new TowerManager();
 
 		tile = getMap();
