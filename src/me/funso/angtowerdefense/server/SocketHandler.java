@@ -73,6 +73,7 @@ public class SocketHandler extends Thread {
 						break;
 					case REQ_TOWER_INFO:
 						ReqTowerInfoHandler.p(param, (OpReqTowerInfo) op);
+						break;
 					case REQ_STAGE_INFO:
 						ReqStageInfoHandler.p(param, (OpReqStageInfo) op);
 						break;
