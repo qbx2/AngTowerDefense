@@ -29,7 +29,7 @@ public class GameMain extends Container implements ActionListener, MouseListener
 	private JButton[] towerBuyBtn;
 	public static TowerInfo[] towerInfo;
 	
-	private Game map;
+	private Game game;
 	
 	private int mineral;
 	private int life;
@@ -44,6 +44,8 @@ public class GameMain extends Container implements ActionListener, MouseListener
 	public GameMain(StageSelection prev, int level) throws IOException, InterruptedException {
 		this.prev = prev;
 		this.level = level;
+		mineral = 50;
+		life = 20;
 		game_speed = 1;
 		init();
 	}
@@ -53,9 +55,9 @@ public class GameMain extends Container implements ActionListener, MouseListener
 
 		mineral = 30;
 		life = 20;
-		
-		map = new Game(level);
-		
+
+		game = new Game(level);
+
 		btn = new JButton[4];
 		towerInfo = new TowerInfo[TOWER_NUM];
 		towerBuyBtn = new JButton[TOWER_NUM];
@@ -72,7 +74,7 @@ public class GameMain extends Container implements ActionListener, MouseListener
 				towerBuyBtn[i*5+j].addActionListener(this);
 			}
 		}
-		
+
 		for(int i=0; i<TOWER_NUM; i++) {
 			towerInfo[i] = Main.c.towerInfo(i+1).info;
 		}
@@ -98,9 +100,9 @@ public class GameMain extends Container implements ActionListener, MouseListener
 			Main.frame.add(btn[i]);
 			btn[i].addActionListener(this);
 		}
-		
+
 		setTimer();
-	    
+
 	    this.addMouseListener(this);
 
 		Main.frame.setVisible(true);
@@ -116,7 +118,7 @@ public class GameMain extends Container implements ActionListener, MouseListener
 	public void paint(Graphics g) {
 		super.paint(g);
 		
-		map.paint(g);
+		game.paint(g);
 		
 		//info window
 		g.drawRect(Device.dim.height + Device.dim.height/70 - Device.dim.height/100*4,
@@ -149,7 +151,7 @@ public class GameMain extends Container implements ActionListener, MouseListener
 		} else if(e.getSource() == btn[3]) {
 			jobScheduler.cancel();
 			drawTimer.cancel();
-			map.cancelTimer();
+			game.cancelTimer();
 			prev.resume();
 		} else {
 			for(int i=0; i<TOWER_NUM; i++) {
@@ -174,7 +176,13 @@ public class GameMain extends Container implements ActionListener, MouseListener
 			
 			if(selected >= -100 && selected <= -91)
 				if(Main.user.level >= towerInfo[selected+100].unlock_level) {
-					map.buildTower(x, y, selected+100);
+					if(mineral >= towerInfo[selected+100].cost) {
+						game.buildTower(x, y, selected+100);
+					} else {
+						//mineral lack messege
+					}
+				} else {
+					//level limit messege
 				}
 		}
 	}

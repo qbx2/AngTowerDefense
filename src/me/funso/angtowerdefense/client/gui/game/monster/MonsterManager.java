@@ -9,11 +9,6 @@ import java.util.ArrayList;
 public class MonsterManager {
 
     public static ArrayList<Monster> monsters = new ArrayList<Monster>();
-    public static char[][] tileType;
-
-    public MonsterManager(char[][] tileType) {
-        this.tileType = tileType;
-    }
 
     public void regen(int type) throws IOException, InterruptedException {
         switch (type) {

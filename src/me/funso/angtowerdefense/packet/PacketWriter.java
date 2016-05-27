@@ -2,7 +2,9 @@ package me.funso.angtowerdefense.packet;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
+
+import me.funso.angtowerdefense.op.Op;
+import me.funso.angtowerdefense.op.OpResJoin;
 
 public class PacketWriter {
 	public static void write(DataOutputStream out, Packet p) throws IOException {
@@ -15,4 +17,9 @@ public class PacketWriter {
 		out.write(bout.toByteArray());
 	}
 
+	public static void writeOp(DataOutputStream dout, Op op) throws IOException {
+		Packet p = new Packet();
+		p.writeOp(op);
+		PacketWriter.write(dout, p);
+	}
 }

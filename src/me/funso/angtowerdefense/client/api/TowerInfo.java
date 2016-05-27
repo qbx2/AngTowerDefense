@@ -15,7 +15,7 @@ public class TowerInfo {
 		Packet p = new Packet();
 		p.writeOp(new OpReqTowerInfo(idx));
 		PacketWriter.write(param.dout, p);
-		
+
 		OpResTowerInfo op = (OpResTowerInfo)param.qs.get(PacketOpcode.RES_TOWER_INFO).take();
 		
 		/*if(op.errorCode != 0) {
