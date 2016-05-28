@@ -15,10 +15,20 @@ public class ReqLoadMapHandler {
 	public static void p(Param param, OpReqLoadMap op) throws IOException, SQLException {
 		int idx = op.idx;
 		System.out.println("ReqLoadMapHandler("+idx+")");
+
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		
-		PreparedStatement ps = MySQLConnector.prepareStatement("SELECT data FROM tbl_map WHERE idx=?");
-		ps.setInt(1, idx);
-		ResultSet rs = ps.executeQuery();
-		PacketWriter.writeOp(param.dout, new OpResLoadMap(rs.next() ? rs.getString(1) : null));
+		try {
+			ps = MySQLConnector.prepareStatement("SELECT data FROM tbl_map WHERE idx=?");
+			ps.setInt(1, idx);
+			rs = ps.executeQuery();
+			PacketWriter.writeOp(param.dout, new OpResLoadMap(rs.next() ? rs.getString(1) : null));
+		} finally {
+			if(ps != null)
+				ps.close();
+			if(rs != null)
+				rs.close();
+		}
 	}
 }
