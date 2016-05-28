@@ -10,9 +10,8 @@ import java.awt.*;
 public class PoisonTower extends Tower {
 
     public PoisonTower(int x, int y, int r_x, int r_y) {
-        super(x, y, r_x, r_y);
+        super(x, y, r_x, r_y, 6);
 
-        cost = Main.towerInfo[6].cost;
         attack_range = size* Main.towerInfo[6].attack_range;
         attack_speed = Main.towerInfo[6].attack_speed;
         damage = Main.towerInfo[6].damage;

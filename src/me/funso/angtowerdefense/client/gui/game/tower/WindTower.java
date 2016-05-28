@@ -10,9 +10,8 @@ import java.awt.*;
 public class WindTower extends Tower {
 
     public WindTower(int x, int y, int r_x, int r_y) {
-        super(x, y, r_x, r_y);
+        super(x, y, r_x, r_y, 7);
 
-        cost = Main.towerInfo[7].cost;
         attack_range = size* Main.towerInfo[7].attack_range;
         attack_speed = Main.towerInfo[7].attack_speed;
         damage = Main.towerInfo[7].damage;

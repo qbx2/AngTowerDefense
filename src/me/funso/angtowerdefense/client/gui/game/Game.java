@@ -17,13 +17,13 @@ import me.funso.angtowerdefense.client.gui.timer.WaveTimer;
 public class Game implements Paintable, TimerSettable {
 
 	final int SIZE = 32;
-	private Tile[][] tile;
+	public Tile[][] tile;
 
 	public static MonsterManager monsterManager;
 	public static TowerManager towerManager;
 
     Timer jobScheduler;
-	WaveTimer waveTimer;
+	public static WaveTimer waveTimer;
 	
 	public Game() throws IOException, InterruptedException {
 		init();
@@ -33,7 +33,7 @@ public class Game implements Paintable, TimerSettable {
 	public void setTimer() {
 		jobScheduler = new Timer(true);
 		waveTimer = new WaveTimer(GameMain.monsterType);
-		jobScheduler.schedule(waveTimer, 10000, 30000);
+		jobScheduler.scheduleAtFixedRate(waveTimer, 0, 2500);
 	}
 	
 	public void cancelTimer() {

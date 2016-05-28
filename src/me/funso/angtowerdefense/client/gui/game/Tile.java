@@ -54,4 +54,8 @@ public class Tile implements Paintable {
 			size = Device.dim.height/35;
 		}
 	}
+
+	public int getTowerType() { return tower.getType(); }
+
+	public Tower getTower() { return tower; }
 }

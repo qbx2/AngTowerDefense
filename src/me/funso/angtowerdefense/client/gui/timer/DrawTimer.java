@@ -5,7 +5,7 @@ import java.util.TimerTask;
 import me.funso.angtowerdefense.client.gui.game.GameMain;
 
 public class DrawTimer extends TimerTask {
-	
+
 	GameMain gm;
 	
 	public DrawTimer(GameMain gm) {

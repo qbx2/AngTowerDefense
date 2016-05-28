@@ -10,9 +10,8 @@ import java.awt.*;
 public class Swamp extends Tower {
 
     public Swamp(int x, int y, int r_x, int r_y) {
-        super(x, y, r_x, r_y);
+        super(x, y, r_x, r_y, 3);
 
-        cost = Main.towerInfo[3].cost;
         attack_range = size*Main.towerInfo[3].attack_range;
         attack_speed = Main.towerInfo[3].attack_speed;
         damage = Main.towerInfo[3].damage;

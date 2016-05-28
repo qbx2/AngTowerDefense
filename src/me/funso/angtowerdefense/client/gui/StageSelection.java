@@ -21,9 +21,8 @@ public class StageSelection implements ActionListener {
 	private Container container;
 	private JLabel label;
 	private JButton stageBtn[][];
-	private JButton nextBtn,prevBtn,backBtn,skillBtn;
-	
-	final int MAX_PAGE = 2;
+	private JButton backBtn;
+
 	final int ROW = 2;
 	final int COLUMN = 5;
 	int currentPage;
@@ -58,22 +57,6 @@ public class StageSelection implements ActionListener {
 				stageBtn[i][j].addActionListener(this);
 			}
 
-		prevBtn = new JButton("PREV");
-		prevBtn.setSize(Device.dim.width/6, Device.dim.height/8);
-		prevBtn.setLocation(Device.dim.width/36*11, Device.dim.height/12*9);
-		prevBtn.setFont(new Font("궁서",Font.BOLD,Device.dim.height/30));
-		prevBtn.setHorizontalAlignment(JButton.CENTER);
-		Main.frame.add(prevBtn);
-		prevBtn.addActionListener(this);
-
-		nextBtn = new JButton("NEXT");
-		nextBtn.setSize(Device.dim.width/6, Device.dim.height/8);
-		nextBtn.setLocation(Device.dim.width/36*19, Device.dim.height/12*9);
-		nextBtn.setFont(new Font("궁서",Font.BOLD,Device.dim.height/30));
-		nextBtn.setHorizontalAlignment(JButton.CENTER);
-		Main.frame.add(nextBtn);
-		nextBtn.addActionListener(this);
-
 		backBtn = new JButton("MAIN");
 		backBtn.setSize(Device.dim.width/6, Device.dim.height/8);
 		backBtn.setLocation(Device.dim.width/36*27, Device.dim.height/12*9);
@@ -81,14 +64,6 @@ public class StageSelection implements ActionListener {
 		backBtn.setHorizontalAlignment(JButton.CENTER);
 		Main.frame.add(backBtn);
 		backBtn.addActionListener(this);
-
-		skillBtn = new JButton("SKILL");
-		skillBtn.setSize(Device.dim.width/6, Device.dim.height/8);
-		skillBtn.setLocation(Device.dim.width/36*3, Device.dim.height/12*9);
-		skillBtn.setFont(new Font("궁서",Font.BOLD,Device.dim.height/30));
-		skillBtn.setHorizontalAlignment(JButton.CENTER);
-		Main.frame.add(skillBtn);
-		skillBtn.addActionListener(this);
 
 		Main.frame.setVisible(true);
 		container.setVisible(true);
@@ -106,23 +81,9 @@ public class StageSelection implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getSource() == nextBtn) {
-			currentPage = (currentPage+1)%MAX_PAGE;
-			for(int i=0; i<ROW; i++)
-				for(int j=0; j<COLUMN; j++)
-					stageBtn[i][j].setText(""+(currentPage*10+i*5+j+1));
-		} else if(e.getSource() == prevBtn) {
-			currentPage--;
-			if(currentPage<0)
-				currentPage = MAX_PAGE-1;
-			for(int i=0; i<ROW; i++)
-				for(int j=0; j<COLUMN; j++)
-					stageBtn[i][j].setText(""+(currentPage*10+i*5+j+1));
-		} else if(e.getSource() == backBtn) {
+		if(e.getSource() == backBtn) {
 			container.setVisible(false);
 			toMain();
-		} else if(e.getSource() == skillBtn) {
-			container.setVisible(false);
 		} else {
 			for(int i=0; i<ROW; i++)
 				for(int j=0; j<COLUMN; j++)

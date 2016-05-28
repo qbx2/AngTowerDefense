@@ -10,14 +10,13 @@ import java.awt.*;
 public class Nuclear extends Tower {
 
     public Nuclear(int x, int y, int r_x, int r_y) {
-        super(x, y, r_x, r_y);
+        super(x, y, r_x, r_y, 9);
 
-        cost = Main.towerInfo[9].cost;
         attack_range = size*Main.towerInfo[9].attack_range;
         attack_speed = Main.towerInfo[9].attack_speed;
         damage = Main.towerInfo[9].damage;
         name = Main.towerInfo[9].name;
-        
+
         setTimer();
     }
 

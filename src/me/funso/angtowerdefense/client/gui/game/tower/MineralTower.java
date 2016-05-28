@@ -10,9 +10,8 @@ import java.awt.*;
 public class MineralTower extends Tower {
 
     public MineralTower(int x, int y, int r_x, int r_y) {
-        super(x, y, r_x, r_y);
+        super(x, y, r_x, r_y, 4);
 
-        cost = Main.towerInfo[4].cost;
         attack_range = size*Main.towerInfo[4].attack_range;
         attack_speed = Main.towerInfo[4].attack_speed;
         damage = Main.towerInfo[4].damage;

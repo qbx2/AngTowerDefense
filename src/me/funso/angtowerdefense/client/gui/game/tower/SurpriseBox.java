@@ -10,9 +10,8 @@ import java.awt.*;
 public class SurpriseBox extends Tower {
 
     public SurpriseBox(int x, int y, int r_x, int r_y) {
-        super(x, y, r_x, r_y);
+        super(x, y, r_x, r_y, 8);
 
-        cost = Main.towerInfo[8].cost;
         attack_range = size*Main.towerInfo[8].attack_range;
         attack_speed = Main.towerInfo[8].attack_speed;
         damage = Main.towerInfo[8].damage;

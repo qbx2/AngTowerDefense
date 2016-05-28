@@ -24,6 +24,11 @@ public class MoveTimer extends TimerTask {
 			j=0;
 			if(!monster.move()) {
 				MonsterManager.monsters.remove(monster);
+				GameMain.life--;
+				if(GameMain.life <= 0) {
+					GameMain.gm.repaint();
+					GameMain.gm.cancelTimer();
+				}
 				this.cancel();
 			}
 		}

@@ -10,9 +10,8 @@ import java.awt.*;
 public class ThunderBolts extends Tower {
 
     public ThunderBolts(int x, int y, int r_x, int r_y) {
-        super(x, y, r_x, r_y);
+        super(x, y, r_x, r_y, 1);
 
-        cost = Main.towerInfo[1].cost;
         attack_range = size*Main.towerInfo[1].attack_range;
         attack_speed = Main.towerInfo[1].attack_speed;
         damage = Main.towerInfo[1].damage;

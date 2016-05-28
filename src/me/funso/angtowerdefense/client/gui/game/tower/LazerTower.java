@@ -10,9 +10,8 @@ import java.awt.*;
 public class LazerTower extends Tower {
 
     public LazerTower(int x, int y, int r_x, int r_y) {
-        super(x, y, r_x, r_y);
+        super(x, y, r_x, r_y, 2);
 
-        cost = Main.towerInfo[2].cost;
         attack_range = size*Main.towerInfo[2].attack_range;
         attack_speed = Main.towerInfo[2].attack_speed;
         damage = Main.towerInfo[2].damage;

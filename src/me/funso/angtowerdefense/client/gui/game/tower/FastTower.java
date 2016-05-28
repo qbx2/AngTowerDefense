@@ -1,6 +1,7 @@
 package me.funso.angtowerdefense.client.gui.game.tower;
 
 import me.funso.angtowerdefense.client.Main;
+import me.funso.angtowerdefense.client.gui.game.GameMain;
 
 import java.awt.*;
 
@@ -10,9 +11,8 @@ import java.awt.*;
 public class FastTower extends Tower {
 
     public FastTower(int x, int y, int r_x, int r_y) {
-        super(x, y, r_x, r_y);
+        super(x, y, r_x, r_y, 0);
 
-        cost = Main.towerInfo[0].cost;
         attack_range = size* Main.towerInfo[0].attack_range;
         attack_speed = Main.towerInfo[0].attack_speed;
         damage = Main.towerInfo[0].damage;
@@ -25,5 +25,9 @@ public class FastTower extends Tower {
         super.paint(g);
 
         g.drawString("1", r_x, r_y);
+        if(attack) {
+            g.drawRect(70,70,100,100);
+            attack = false;
+        }
     }
 }
