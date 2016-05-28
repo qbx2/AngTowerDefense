@@ -59,7 +59,7 @@ public class MySQLConnector {
 	private static Connection conn = null;
 	
 	public static Connection getConnection() throws SQLException {
-		if(conn == null) {
+		if(conn == null || conn.isClosed()) {
 			conn = DriverManager.getConnection(DBConfiguration.getUrl(), DBConfiguration.getUser(), DBConfiguration.getPassword());
 			conn.setAutoCommit(true);
 		}
