@@ -16,6 +16,26 @@ import me.funso.angtowerdefense.server.SHACalculator;
 import me.funso.angtowerdefense.server.Server;
 
 public class ReqLoginHandler {
+	private static class UserData {
+		String user_id;
+		String salt;
+		String user_pw;
+		String nickname;
+		int level;
+		int exp;
+		int gold;
+
+		public UserData(String user_id, String salt, String user_pw, String nickname, int level, int exp, int gold) {
+			this.user_id = user_id;
+			this.salt = salt;
+			this.user_pw = user_pw;
+			this.nickname = nickname;
+			this.level = level;
+			this.exp = exp;
+			this.gold = gold;
+		}
+	}
+
 	private static void myAssert(boolean cond, String message, Param param) throws ResultSentException, IOException {
 		if(!cond) {
 			PacketWriter.writeOp(param.dout, new OpResLogin(-1, message, null));
@@ -23,15 +43,15 @@ public class ReqLoginHandler {
 		}
 	}
 
-	private static ResultSet getUser(String user_id) throws SQLException {
+	private static UserData getUser(String user_id) throws SQLException {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		
+
 		try {
 			ps = MySQLConnector.prepareStatement("SELECT * FROM tbl_user WHERE user_id=?"); // case insensitive
 			ps.setString(1, user_id);
 			rs = ps.executeQuery();
-			return rs;
+			return rs.next() ? new UserData(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getInt(8)) : null;
 		} finally {
 			if(ps != null)
 				ps.close();
@@ -52,15 +72,12 @@ public class ReqLoginHandler {
 		myAssert(user_pw.length() >= 4, "user_pw must be longer than or equal to 4.", param);
 		myAssert(!Server.session.containsKey(param.sock), "You're already logged in.", param);
 		
-		ResultSet rs = getUser(user_id);
-		myAssert(rs.next(), "Login failed", param);
-		
-		String encrypted_user_pw = rs.getString("user_pw");
-		String salt = rs.getString("salt");
-		
-		if(checkPassword(encrypted_user_pw, salt, user_pw)) {
+		UserData userData = getUser(user_id);
+		myAssert(userData != null, "Login failed", param);
+	
+		if(checkPassword(userData.user_pw, userData.salt, user_pw)) {
 			// login ok
-			User user = new User(rs.getString("user_id"), rs.getString("nickname"), rs.getInt("level"), rs.getInt("exp"), rs.getInt("gold"));
+			User user = new User(userData.user_id, userData.nickname, userData.level, userData.exp, userData.gold);
 			
 			// set session
 			Server.session.put(param.sock, user);
