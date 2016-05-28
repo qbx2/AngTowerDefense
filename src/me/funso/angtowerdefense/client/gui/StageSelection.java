@@ -27,8 +27,6 @@ public class StageSelection implements ActionListener {
 	final int ROW = 2;
 	final int COLUMN = 5;
 	int currentPage;
-
-	public static StageInfo[] stageInfo;
 	
 	public StageSelection(Login prev) {
 		this.prev = prev;
@@ -39,12 +37,6 @@ public class StageSelection implements ActionListener {
 	}
 	
 	public void init() {
-		try {
-			stageInfo = new StageInfo[Main.c.stageCount().count];
-			for (int i = 0; i < stageInfo.length; i++) {
-				stageInfo[i] = Main.c.stageInfo(i + 1).info;
-			}
-		} catch(Exception e) {}
 
 		Main.frame.setContentPane(container);
 		

@@ -36,13 +36,6 @@ public class Map {
 			
 			y++;
 		}
-
-		for(y=0; y < 32; y++) {
-			for(int x = 0; x < 32; x++) {
-				System.out.print(this.map[y][x]);
-			}
-			System.out.println();
-		}
 	}
 	
 	public char[][] getMap() {
@@ -98,7 +91,6 @@ public class Map {
 	
 	public String aStar(Point start, Point goal)
 	{
-		System.out.println(start + " to " + goal);
 		ArrayList<Point> closedSet = new ArrayList<Point>();
 		Queue<Point> openSet = new LinkedList<Point>();
 		openSet.add(start);

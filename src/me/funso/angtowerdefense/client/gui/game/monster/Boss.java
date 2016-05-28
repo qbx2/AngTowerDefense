@@ -2,21 +2,19 @@ package me.funso.angtowerdefense.client.gui.game.monster;
 
 import me.funso.angtowerdefense.MonsterInfo;
 import me.funso.angtowerdefense.client.Main;
-import me.funso.angtowerdefense.client.gui.timer.MoveTimer;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.Timer;
 
 /**
  * Created by baek on 2016. 5. 27..
  */
-public class Golem extends Monster {
+public class Boss extends Monster {
 
-    public Golem() throws IOException, InterruptedException {
+    public Boss() throws IOException, InterruptedException {
         super();
 
-        MonsterInfo info = Main.monsterInfo[1];
+        MonsterInfo info = Main.monsterInfo[5];
         hp = info.hp;
         armor = info.armor;
         speed = info.speed;
@@ -27,6 +25,6 @@ public class Golem extends Monster {
 
     public void paint(Graphics g) {
         super.paint(g);
-        g.drawString("2", x-size_x/2, y+size_y/2);
+        g.drawString("6", x-size_x/2, y+size_y/2);
     }
 }

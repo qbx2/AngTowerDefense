@@ -50,12 +50,8 @@ public class Tile implements Paintable {
 	public void calcXYSize() {
 		r_x = Device.dim.height/35*(x+1)+Device.dim.height/70/50 + Device.dim.height/70;
 		r_y = Device.dim.height/35*(y+1)+Device.dim.height/100;
-		switch(type) {
-		case NORMAL:
+		if(type == TileType.NORMAL) {
 			size = Device.dim.height/35;
-			break;
-		//case '0': case 'S': case 'G':
-		//	break;
 		}
 	}
 }

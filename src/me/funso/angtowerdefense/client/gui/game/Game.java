@@ -12,6 +12,7 @@ import me.funso.angtowerdefense.client.gui.game.monster.MonsterManager;
 import me.funso.angtowerdefense.client.gui.game.tower.Tower;
 import me.funso.angtowerdefense.client.gui.game.tower.TowerManager;
 import me.funso.angtowerdefense.client.gui.timer.MonsterRegenTimer;
+import me.funso.angtowerdefense.client.gui.timer.WaveTimer;
 
 public class Game implements Paintable, TimerSettable {
 
@@ -22,7 +23,7 @@ public class Game implements Paintable, TimerSettable {
 	public static TowerManager towerManager;
 
     Timer jobScheduler;
-	MonsterRegenTimer regenTimer;
+	WaveTimer waveTimer;
 	
 	public Game() throws IOException, InterruptedException {
 		init();
@@ -31,12 +32,14 @@ public class Game implements Paintable, TimerSettable {
 	
 	public void setTimer() {
 		jobScheduler = new Timer(true);
-
-	    regenTimer = new MonsterRegenTimer(1);
-	    jobScheduler.schedule(regenTimer, 100, 300/4);
+		waveTimer = new WaveTimer(GameMain.monsterType);
+		jobScheduler.schedule(waveTimer, 10000, 30000);
 	}
 	
 	public void cancelTimer() {
+		jobScheduler.cancel();
+		waveTimer.cancelTimer();
+		waveTimer.cancel();
 		for(int i=0; i<towerManager.towers.size(); i++) {
 			towerManager.towers.get(i).cancelTimer();
 		}
@@ -47,9 +50,13 @@ public class Game implements Paintable, TimerSettable {
 		}
 	}
 	
-	public void buildTower(int x, int y, int type) {
+	public boolean buildTower(int x, int y, int type) {
 		Tower t = tile[x][y].buildTower(type);
-		towerManager.towers.add(t);
+		if(t != null) {
+			towerManager.towers.add(t);
+			return true;
+		}
+		return false;
 	}
 	
 	public void init() throws IOException, InterruptedException {
@@ -70,6 +77,6 @@ public class Game implements Paintable, TimerSettable {
 	}
 	
 	public Tile[][] getMap() throws IOException, InterruptedException {
-		return MapParser.parse(Main.c.loadMap(StageSelection.stageInfo[GameMain.level-1].map_idx).map);
+		return MapParser.parse(Main.c.loadMap(Main.stageInfo[GameMain.level-1].map_idx).map);
 	}
 }

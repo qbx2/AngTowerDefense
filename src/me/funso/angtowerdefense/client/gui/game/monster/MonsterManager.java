@@ -27,6 +27,8 @@ public class MonsterManager {
             case 5:
                 monsters.add(new Bee());
                 break;
+            case 6:
+                break;
             default:
 
         }

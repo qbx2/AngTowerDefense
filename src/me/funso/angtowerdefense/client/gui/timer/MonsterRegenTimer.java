@@ -33,6 +33,8 @@ public class MonsterRegenTimer extends TimerTask {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+				if(type == 6)
+					i=999;
 				i++;
 			}
 		}

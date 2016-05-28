@@ -18,6 +18,8 @@ import me.funso.angtowerdefense.TowerInfo;
 import me.funso.angtowerdefense.client.Device;
 import me.funso.angtowerdefense.client.Main;
 import me.funso.angtowerdefense.client.gui.StageSelection;
+import me.funso.angtowerdefense.client.gui.game.monster.MonsterManager;
+import me.funso.angtowerdefense.client.gui.game.tower.TowerManager;
 import me.funso.angtowerdefense.client.gui.timer.DrawTimer;
 
 public class GameMain extends Container implements ActionListener, MouseListener, Paintable {
@@ -28,7 +30,6 @@ public class GameMain extends Container implements ActionListener, MouseListener
 	private JButton btn[];
 	
 	private JButton[] towerBuyBtn;
-	public static TowerInfo[] towerInfo;
 	
 	private Game game;
 	
@@ -38,6 +39,7 @@ public class GameMain extends Container implements ActionListener, MouseListener
 	
 	private int selected;
 	public static int game_speed;
+	public static int[] monsterType;
 	
 	DrawTimer drawTimer;
     Timer jobScheduler;
@@ -45,8 +47,6 @@ public class GameMain extends Container implements ActionListener, MouseListener
 	public GameMain(StageSelection prev, int level) throws IOException, InterruptedException {
 		this.prev = prev;
 		this.level = level;
-		mineral = 50;
-		life = 20;
 		game_speed = 1;
 		init();
 	}
@@ -54,18 +54,23 @@ public class GameMain extends Container implements ActionListener, MouseListener
 	public void init() throws IOException, InterruptedException {
 		Main.frame.setContentPane(this);
 
-		mineral = 30;
+		System.out.println(Main.stageInfo[level-1].gen_rule);
+		monsterType = new int[Main.stageInfo[level-1].gen_rule.length()];
+		for(int i=0; i<Main.stageInfo[level-1].gen_rule.length(); i++) {
+			monsterType[i] = Main.stageInfo[level-1].gen_rule.charAt(i) - '0';
+		}
+
+		mineral = 50;
 		life = 20;
 
 		game = new Game();
 
 		btn = new JButton[4];
-		towerInfo = new TowerInfo[TOWER_NUM];
 		towerBuyBtn = new JButton[TOWER_NUM];
 		
 		for(int i=0; i<2; i++) {
 			for(int j=0; j<5; j++) {
-				towerBuyBtn[i*5+j] = new JButton("Mon "+(i*5+j+1));
+				towerBuyBtn[i*5+j] = new JButton("Tower "+(i*5+j+1));
 				towerBuyBtn[i*5+j].setSize((Device.dim.width - Device.dim.height)/5, (Device.dim.width - Device.dim.height)/5);
 				towerBuyBtn[i*5+j].setLocation(Device.dim.height + Device.dim.height/70 - Device.dim.height/100*4 + (Device.dim.width - Device.dim.height)/5*j,
 						Device.dim.height/70 + Device.dim.height/100 + (Device.dim.width - Device.dim.height)/5*i);
@@ -74,10 +79,6 @@ public class GameMain extends Container implements ActionListener, MouseListener
 				Main.frame.add(towerBuyBtn[i*5+j]);
 				towerBuyBtn[i*5+j].addActionListener(this);
 			}
-		}
-
-		for(int i=0; i<TOWER_NUM; i++) {
-			towerInfo[i] = Main.c.towerInfo(i+1).info;
 		}
 
 		btn[0] = new JButton("×1");
@@ -111,9 +112,13 @@ public class GameMain extends Container implements ActionListener, MouseListener
 	
 	public void setTimer() {
 		jobScheduler = new Timer(true);
-		
 		drawTimer = new DrawTimer(this);
 	    jobScheduler.scheduleAtFixedRate(drawTimer, 0, 1000/30);
+	}
+
+	public void cancelTimer() {
+		jobScheduler.cancel();
+		drawTimer.cancel();
 	}
 	
 	public void paint(Graphics g) {
@@ -126,6 +131,10 @@ public class GameMain extends Container implements ActionListener, MouseListener
 				Device.dim.height/70 + Device.dim.height/20 + (Device.dim.width - Device.dim.height)/5*2,
 				(Device.dim.width - Device.dim.height),
 				Device.dim.height/100*79 - (Device.dim.height/70 + Device.dim.height/20 + (Device.dim.width - Device.dim.height)/5*2));
+	}
+
+	public void payMineral(int towerType) {
+		mineral -= Main.towerInfo[towerType].cost;
 	}
 
 	@Override
@@ -150,9 +159,10 @@ public class GameMain extends Container implements ActionListener, MouseListener
 			else
 				btn[2].setText("UNMUTE");
 		} else if(e.getSource() == btn[3]) {
-			jobScheduler.cancel();
-			drawTimer.cancel();
+			cancelTimer();
 			game.cancelTimer();
+			MonsterManager.monsters.clear();
+			TowerManager.towers.clear();
 			prev.resume();
 		} else {
 			for(int i=0; i<TOWER_NUM; i++) {
@@ -176,9 +186,10 @@ public class GameMain extends Container implements ActionListener, MouseListener
 			y = (e.getY() - (Device.dim.height/70 + Device.dim.height/100)) / (Device.dim.height/35);
 			
 			if(selected >= -100 && selected <= -91)
-				if(Main.user.level >= towerInfo[selected+100].unlock_level) {
-					if(mineral >= towerInfo[selected+100].cost) {
-						game.buildTower(x, y, selected+100);
+				if(Main.user.level >= Main.towerInfo[selected+100].unlock_level) {
+					if(mineral >= Main.towerInfo[selected+100].cost) {
+						if(game.buildTower(x, y, selected+100))
+							payMineral(selected+100);
 					} else {
 						//mineral lack messege
 					}

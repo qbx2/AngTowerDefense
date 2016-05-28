@@ -42,11 +42,9 @@ public abstract class Tower implements Paintable, TimerSettable {
 	}
 	
 	public void setTimer() {
-		System.out.println(this.attack_speed);
 		jobScheduler = new Timer(true);
-
 	    attackTimer = new AttackTimer(this);
-	    jobScheduler.scheduleAtFixedRate(attackTimer, 100, 300/attack_speed/4);
+	    jobScheduler.scheduleAtFixedRate(attackTimer, 100, attack_speed*10);
 	}
 	
 	public void attack() {

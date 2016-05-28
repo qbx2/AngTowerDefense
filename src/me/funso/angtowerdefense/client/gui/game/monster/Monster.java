@@ -48,7 +48,7 @@ public abstract class Monster implements Paintable, TimerSettable {
 	public void setTimer() {
 		jobScheduler = new Timer(true);
 		moveTimer = new MoveTimer(this);
-		jobScheduler.scheduleAtFixedRate(moveTimer, 100, speed/4);
+		jobScheduler.scheduleAtFixedRate(moveTimer, 100, 100/speed);
 	}
 	
 	public void randMoveCalc() {
@@ -177,7 +177,6 @@ public abstract class Monster implements Paintable, TimerSettable {
 			size_y = g.getFontMetrics().getHeight()/3*2;
 			randMoveCalc();
 		}
-		g.drawString("M", x-size_x/2, y+size_y/2);
 	}
 	
 	public int getX() {
@@ -211,7 +210,7 @@ public abstract class Monster implements Paintable, TimerSettable {
 	
 	public String astar() throws IOException, InterruptedException {
 
-		Map map = new Map(Main.c.loadMap(GameMain.level).map);
+		Map map = new Map(Main.c.loadMap(Main.stageInfo[GameMain.level-1].map_idx).map);
 		start = map.find('S');
 		
 		return map.aStar(map.find('S'), map.find('G'));
