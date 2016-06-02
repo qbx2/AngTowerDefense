@@ -1,6 +1,9 @@
 package me.funso.angtowerdefense.client.gui.game.tower;
 
 import me.funso.angtowerdefense.client.Main;
+import me.funso.angtowerdefense.client.gui.game.Game;
+import me.funso.angtowerdefense.client.gui.game.monster.Monster;
+import me.funso.angtowerdefense.client.gui.game.monster.MonsterManager;
 
 import java.awt.*;
 

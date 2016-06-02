@@ -1,6 +1,9 @@
 package me.funso.angtowerdefense.client.gui.game.tower;
 
 import me.funso.angtowerdefense.client.Main;
+import me.funso.angtowerdefense.client.gui.game.Game;
+import me.funso.angtowerdefense.client.gui.game.GameMain;
+import me.funso.angtowerdefense.client.gui.game.monster.MonsterManager;
 
 import java.awt.*;
 
@@ -24,5 +27,30 @@ public class ThunderBolts extends Tower {
         super.paint(g);
 
         g.drawString("2", r_x, r_y);
+    }
+
+    public void attack() {
+
+        int monster_x, monster_y;
+
+        for(int i=MonsterManager.monsters.size()-1; i>=0; i--) {
+            monster_x = MonsterManager.monsters.get(i).getX();
+            monster_y = MonsterManager.monsters.get(i).getY();
+            if(attack_range >= Math.sqrt(Math.pow(monster_x-r_x, 2) + Math.pow(monster_y-r_y, 2))) {
+                MonsterManager.monsters.get(i).attackWait();
+                if(MonsterManager.monsters.get(i).damaged(damage)) {
+                    MonsterManager.monsters.get(i).attackRelease();
+                } else {	//die
+                    if(MonsterManager.type.size() > i) {
+                        GameMain.gm.earnMineral(MonsterManager.type.get(i));
+                        MonsterManager.type.remove(i);
+                    }
+                    if(MonsterManager.monsters.size() > i) {
+                        MonsterManager.monsters.remove(i);
+                    }
+                    kill++;
+                }
+            }
+        }
     }
 }

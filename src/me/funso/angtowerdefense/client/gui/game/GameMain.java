@@ -18,6 +18,7 @@ import me.funso.angtowerdefense.client.gui.StageSelection;
 import me.funso.angtowerdefense.client.gui.game.monster.MonsterManager;
 import me.funso.angtowerdefense.client.gui.game.tower.TowerManager;
 import me.funso.angtowerdefense.client.gui.timer.DrawTimer;
+import me.funso.angtowerdefense.client.gui.timer.WaveTimer;
 
 public class GameMain extends Container implements ActionListener, MouseListener, Paintable {
 	
@@ -171,6 +172,18 @@ public class GameMain extends Container implements ActionListener, MouseListener
 			return;
 		}
 
+		if(WaveTimer.wave >= 10 && MonsterManager.monsters.size() == 0) {
+			g.setFont(new Font("궁서",Font.BOLD,Device.dim.height/10));
+			g.drawString("You",
+					Device.dim.height + Device.dim.height/70 - Device.dim.height/100*3,
+					Device.dim.height/70 + Device.dim.height/20 + (Device.dim.width - Device.dim.height)/5*2 + Device.dim.height/40*4);
+			g.drawString("Win",
+					Device.dim.height + Device.dim.height/70 - Device.dim.height/100*3,
+					Device.dim.height/70 + Device.dim.height/20 + (Device.dim.width - Device.dim.height)/5*2 + Device.dim.height/40*9);
+			cancelTimer();
+			return;
+		}
+
 		if(-100 <= selected && selected <= 9-100) {
 			paintTowerInfo(g, selected + 100);
 			if(Main.user.level < Main.towerInfo[selected+100].unlock_level) {
@@ -228,6 +241,8 @@ public class GameMain extends Container implements ActionListener, MouseListener
 				Device.dim.height + Device.dim.height/70 - Device.dim.height/100*3,
 				Device.dim.height/70 + Device.dim.height/20 + (Device.dim.width - Device.dim.height)/5*2 + Device.dim.height/40*6);
 	}
+
+	public void earnMineral(int mineral) { this.mineral += mineral; }
 
 	public void payMineral(int towerType) {
 		mineral -= Main.towerInfo[towerType].cost;
@@ -290,6 +305,8 @@ public class GameMain extends Container implements ActionListener, MouseListener
 						//mineral shortage message
 						selected = -99999;
 					}
+					if(selected == -91)
+						selected = 0;
 				} else {
 					//level limit message
 					selected = -99998;

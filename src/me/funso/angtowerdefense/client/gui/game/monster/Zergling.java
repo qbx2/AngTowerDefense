@@ -12,12 +12,12 @@ import java.io.IOException;
 /**
  * Created by baek on 2016. 5. 27..
  */
-public class Shako extends Monster {
+public class Zergling extends Monster {
 
-    public Shako() throws IOException, InterruptedException {
+    public Zergling() throws IOException, InterruptedException {
         super();
 
-        MonsterInfo info = Main.monsterInfo[3];
+        MonsterInfo info = Main.monsterInfo[0];
         hp = info.hp;
         armor = info.armor;
         speed = info.speed;
@@ -29,8 +29,8 @@ public class Shako extends Monster {
     public void paint(Graphics g) {
         if(size_x == 0) {
             if(image != null) {
-                int imageHeight = image[3].getHeight(Main.frame);
-                int imageWidth = image[3].getWidth(Main.frame);
+                int imageHeight = image[0].getHeight(Main.frame);
+                int imageWidth = image[0].getWidth(Main.frame);
                 if (imageHeight < imageWidth) {
                     size_x = Device.dim.height / 70;
                     size_y = size_x * imageHeight / imageWidth;
@@ -42,6 +42,6 @@ public class Shako extends Monster {
             randMoveCalc();
         }
 
-        g.drawImage(image[3], x-size_x/2, y-size_y/2, size_x, size_y, Main.frame);
+        g.drawImage(image[0], x-size_x/2, y-size_y/2, size_x, size_y, Main.frame);
     }
 }

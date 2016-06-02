@@ -23,7 +23,6 @@ public abstract class Tower implements Paintable, TimerSettable {
 	String name;
 	int damage, attack_speed, attack_range;
 	Monster target;
-	public boolean attack;
 	int type;
 	int kill;
 
@@ -37,7 +36,6 @@ public abstract class Tower implements Paintable, TimerSettable {
 		this.r_x = r_x;
 		this.r_y = r_y;
 		size = Device.dim.height/40;
-		attack = false;
 		kill = 0;
 	}
 	
@@ -60,13 +58,19 @@ public abstract class Tower implements Paintable, TimerSettable {
 			monster_x = target.getX();
 			monster_y = target.getY();
 			if(attack_range >= Math.sqrt(Math.pow(monster_x-r_x, 2) + Math.pow(monster_y-r_y, 2))) {
-				attack = true;
+				target.attackWait();
 				if(target.damaged(damage)) {		//didn't die
-
+					target.attackRelease();
 				} else {		//die
 					for(int i = 0; i< Game.monsterManager.monsters.size(); i++) {
 						if(MonsterManager.monsters.get(i) == target) {
-							MonsterManager.monsters.remove(i);
+							if(MonsterManager.type.size() > i) {
+								GameMain.gm.earnMineral(MonsterManager.type.get(i));
+								MonsterManager.type.remove(i);
+							}
+							if(MonsterManager.monsters.size() > i) {
+								MonsterManager.monsters.remove(i);
+							}
 							target = null;
 							kill++;
 							return;
@@ -83,11 +87,17 @@ public abstract class Tower implements Paintable, TimerSettable {
 				monster_y = MonsterManager.monsters.get(i).getY();
 				if(attack_range >= Math.sqrt(Math.pow(monster_x-r_x, 2) + Math.pow(monster_y-r_y, 2))) {
 					target = MonsterManager.monsters.get(i);
-					attack = true;
+					target.attackWait();
 					if(target.damaged(damage)) {
-						
+						target.attackRelease();
 					} else {	//die
-						MonsterManager.monsters.remove(i);
+						if(MonsterManager.type.size() > i) {
+							GameMain.gm.earnMineral(MonsterManager.type.get(i));
+							MonsterManager.type.remove(i);
+						}
+						if(MonsterManager.monsters.size() > i) {
+							MonsterManager.monsters.remove(i);
+						}
 						kill++;
 						target = null;
 					}

@@ -1,6 +1,7 @@
 package me.funso.angtowerdefense.client.gui.game.monster;
 
-import java.awt.Graphics;
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 import java.util.Timer;
@@ -12,10 +13,15 @@ import me.funso.angtowerdefense.client.astar.Point;
 import me.funso.angtowerdefense.client.gui.game.Paintable;
 import me.funso.angtowerdefense.client.gui.game.GameMain;
 import me.funso.angtowerdefense.client.gui.game.TimerSettable;
+import me.funso.angtowerdefense.client.gui.game.tower.PoisonTower;
 import me.funso.angtowerdefense.client.gui.timer.MoveTimer;
 
+import javax.imageio.ImageIO;
+
 public abstract class Monster implements Paintable, TimerSettable {
-	
+
+	public Image[] image;
+
 	int x,y;
 	String route, newRoute;
 	int i;
@@ -31,7 +37,21 @@ public abstract class Monster implements Paintable, TimerSettable {
 	Timer jobScheduler;
 	MoveTimer moveTimer;
 
+	public boolean isFreeze = false;
+	public boolean isSwamp = false;
+	public boolean isPoison = false;
+	public PoisonTower pt = null;
+
+	public boolean isAttack = false;
+
 	public Monster() throws IOException, InterruptedException {
+		image = new Image[6];
+		image[0] = ImageIO.read(new File("zergling.png"));
+		image[1] = ImageIO.read(new File("golem.png"));
+		image[2] = ImageIO.read(new File("citizen.png"));
+		image[3] = ImageIO.read(new File("shaco.png"));
+		image[4] = ImageIO.read(new File("bee.png"));
+		image[5] = ImageIO.read(new File("boss.png"));
 		route = astar();
 		move = new int[route.length()];
 		i=0;
@@ -128,11 +148,22 @@ public abstract class Monster implements Paintable, TimerSettable {
 	
 	public boolean damaged(int damage) {
 		hp -= (damage - armor);
-		if(hp <= 0)
-			return false;
-		return true;
+		return !isDead();
 	}
-	
+
+	public void attackWait() {
+		while(isAttack);
+		isAttack = true;
+	}
+
+	public void attackRelease() {
+		isAttack = false;
+	}
+
+	public boolean isDead() {
+		return hp <= 0;
+	}
+
 	public boolean move() {
 		if(newRoute == null)
 			return true;
@@ -170,13 +201,9 @@ public abstract class Monster implements Paintable, TimerSettable {
 		}
 		return true;
 	}
-	
+
 	public void paint(Graphics g) {
-		if(size_x == 0) {
-			size_x = g.getFontMetrics().stringWidth("M");
-			size_y = g.getFontMetrics().getHeight()/3*2;
-			randMoveCalc();
-		}
+
 	}
 	
 	public int getX() {

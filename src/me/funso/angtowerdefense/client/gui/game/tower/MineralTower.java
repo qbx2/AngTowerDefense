@@ -1,6 +1,9 @@
 package me.funso.angtowerdefense.client.gui.game.tower;
 
 import me.funso.angtowerdefense.client.Main;
+import me.funso.angtowerdefense.client.gui.game.Game;
+import me.funso.angtowerdefense.client.gui.game.GameMain;
+import me.funso.angtowerdefense.client.gui.game.monster.MonsterManager;
 
 import java.awt.*;
 
@@ -24,5 +27,9 @@ public class MineralTower extends Tower {
         super.paint(g);
 
         g.drawString("5", r_x, r_y);
+    }
+
+    public void attack() {
+        GameMain.gm.earnMineral(damage);
     }
 }

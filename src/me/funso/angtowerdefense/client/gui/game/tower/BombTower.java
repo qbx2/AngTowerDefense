@@ -1,6 +1,10 @@
 package me.funso.angtowerdefense.client.gui.game.tower;
 
 import me.funso.angtowerdefense.client.Main;
+import me.funso.angtowerdefense.client.gui.game.Game;
+import me.funso.angtowerdefense.client.gui.game.GameMain;
+import me.funso.angtowerdefense.client.gui.game.monster.Monster;
+import me.funso.angtowerdefense.client.gui.game.monster.MonsterManager;
 
 import java.awt.*;
 
@@ -24,5 +28,101 @@ public class BombTower extends Tower {
         super.paint(g);
 
         g.drawString("6", r_x, r_y);
+    }
+
+    public void attack() {
+
+        int monster_x, monster_y;
+
+        if(target != null) {
+            monster_x = target.getX();
+            monster_y = target.getY();
+            if(attack_range >= Math.sqrt(Math.pow(monster_x-r_x, 2) + Math.pow(monster_y-r_y, 2))) {
+                for(int i=0; i<MonsterManager.monsters.size(); i++) {
+                    if(MonsterManager.monsters.get(i) == target)
+                        continue;
+                    if(attack_range/3*2 >= Math.sqrt(Math.pow(monster_x-MonsterManager.monsters.get(i).getX(),2)
+                            + Math.pow(monster_y-MonsterManager.monsters.get(i).getY(),2))) {
+                        if(MonsterManager.monsters.get(i).damaged(damage/3)) {
+                        } else {
+                            if(MonsterManager.type.size() >= i) {
+                                GameMain.gm.earnMineral(MonsterManager.type.get(i));
+                                MonsterManager.type.remove(i);
+                            }
+                            if(MonsterManager.monsters.size() >= i) {
+                                MonsterManager.monsters.remove(i);
+                            }
+                            kill++;
+                        }
+                    }
+                }
+                if(target.damaged(damage)) {		//didn't die
+                } else {		//die
+                    for(int i = 0; i< MonsterManager.monsters.size(); i++) {
+                        if(MonsterManager.monsters.get(i) == target) {
+                            if(MonsterManager.type.size() >= i) {
+                                GameMain.gm.earnMineral(MonsterManager.type.get(i));
+                                MonsterManager.type.remove(i);
+                            }
+                            if(MonsterManager.monsters.size() >= i) {
+                                MonsterManager.monsters.remove(i);
+                            }
+                            target = null;
+                            kill++;
+                            return;
+                        }
+                    }
+                }
+                return;
+            }
+        }
+
+        for(int i=0; i<MonsterManager.monsters.size(); i++) {
+            if(MonsterManager.monsters.get(i) != null) {
+                monster_x = MonsterManager.monsters.get(i).getX();
+                monster_y = MonsterManager.monsters.get(i).getY();
+                if(attack_range >= Math.sqrt(Math.pow(monster_x-r_x, 2) + Math.pow(monster_y-r_y, 2))) {
+                    target = MonsterManager.monsters.get(i);
+                    for(int j=0; j<MonsterManager.monsters.size(); j++) {
+                        if(MonsterManager.monsters.get(j) == target)
+                            continue;
+                        if(attack_range/3*2 >= Math.sqrt(Math.pow(monster_x-MonsterManager.monsters.get(j).getX(),2)
+                                + Math.pow(monster_y-MonsterManager.monsters.get(j).getY(),2))) {
+                            MonsterManager.monsters.get(j).attackWait();
+                            if(MonsterManager.monsters.get(j).damaged(damage/3)) {
+                                MonsterManager.monsters.get(j).attackRelease();
+                            } else {
+                                if(MonsterManager.type.size() > j) {
+                                    GameMain.gm.earnMineral(MonsterManager.type.get(j));
+                                    MonsterManager.type.remove(j);
+                                }
+                                if(MonsterManager.monsters.size() > j) {
+                                    MonsterManager.monsters.remove(j);
+                                }
+                                kill++;
+                            }
+
+                        }
+                    }
+                    target.attackWait();
+                    if(target.damaged(damage)) {
+                        target.attackRelease();
+                    } else {	//die
+                        if(MonsterManager.type.size() > i) {
+                            GameMain.gm.earnMineral(MonsterManager.type.get(i));
+                            MonsterManager.type.remove(i);
+                        }
+                        if(MonsterManager.monsters.size() > i) {
+                            MonsterManager.monsters.remove(i);
+                        }
+                        kill++;
+                        target = null;
+                    }
+                    return;
+                }
+            }
+        }
+
+        target = null;
     }
 }

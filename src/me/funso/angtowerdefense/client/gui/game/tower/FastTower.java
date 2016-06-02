@@ -25,9 +25,5 @@ public class FastTower extends Tower {
         super.paint(g);
 
         g.drawString("1", r_x, r_y);
-        if(attack) {
-            g.drawRect(70,70,100,100);
-            attack = false;
-        }
     }
 }

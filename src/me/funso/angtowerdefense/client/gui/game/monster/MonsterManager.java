@@ -8,12 +8,18 @@ import java.util.ArrayList;
  */
 public class MonsterManager {
 
-    public static ArrayList<Monster> monsters = new ArrayList<Monster>();
+    public static ArrayList<Monster> monsters;
+    public static ArrayList<Integer> type;
+
+    public MonsterManager() {
+        monsters = new ArrayList<Monster>();
+        type = new ArrayList<Integer>();
+    }
 
     public void regen(int type) throws IOException, InterruptedException {
         switch (type) {
             case 1:
-                monsters.add(new Zugling());
+                monsters.add(new Zergling());
                 break;
             case 2:
                 monsters.add(new Golem());
@@ -32,5 +38,6 @@ public class MonsterManager {
             default:
 
         }
+        this.type.add(type);
     }
 }

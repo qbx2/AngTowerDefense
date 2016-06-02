@@ -42,7 +42,7 @@ public class WaveTimer extends TimerTask {
 		if (wave < type.length) {
 			jobScheduler = new Timer(true);
 			regenTimer = new MonsterRegenTimer(type[wave]);
-			jobScheduler.scheduleAtFixedRate(regenTimer, 100, 300 / 4);
+			jobScheduler.scheduleAtFixedRate(regenTimer, 0, 300 / 4);
 			wave++;
 			i=0;
 		}
