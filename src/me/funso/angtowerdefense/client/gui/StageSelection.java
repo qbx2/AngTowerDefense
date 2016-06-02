@@ -1,15 +1,11 @@
 package me.funso.angtowerdefense.client.gui;
 
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.*;
 
 import me.funso.angtowerdefense.StageInfo;
 import me.funso.angtowerdefense.client.Device;
@@ -22,6 +18,7 @@ public class StageSelection implements ActionListener {
 	private JLabel label;
 	private JButton stageBtn[][];
 	private JButton backBtn;
+	private JLabel mainImage;
 
 	final int ROW = 2;
 	final int COLUMN = 5;
@@ -64,6 +61,16 @@ public class StageSelection implements ActionListener {
 		backBtn.setHorizontalAlignment(JButton.CENTER);
 		Main.frame.add(backBtn);
 		backBtn.addActionListener(this);
+
+		ImageIcon icon = new ImageIcon("img/main.jpeg");
+		Image img = icon.getImage();
+		img = img.getScaledInstance(Device.dim.width, Device.dim.height, java.awt.Image.SCALE_SMOOTH);
+		icon = new ImageIcon(img);
+		mainImage = new JLabel(icon);
+		mainImage.setSize(Device.dim.width, Device.dim.height);
+		mainImage.setLocation(0,0);
+		mainImage.setHorizontalAlignment(JLabel.CENTER);
+		Main.frame.add(mainImage);
 
 		Main.frame.setVisible(true);
 		container.setVisible(true);

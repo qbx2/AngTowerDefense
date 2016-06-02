@@ -1,13 +1,10 @@
 package me.funso.angtowerdefense.client.gui;
 
-import java.awt.Container;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.*;
 
 import me.funso.angtowerdefense.client.Device;
 import me.funso.angtowerdefense.client.Main;
@@ -19,6 +16,7 @@ public class JoinResult implements ActionListener {
 	private JButton button;
 	private Container container;
 	private OpResJoin opResJoin;
+	private JLabel mainImage;
 	
 	public JoinResult(OpResJoin opResJoin, Join prev) {
 		this.prev = prev;
@@ -51,6 +49,16 @@ public class JoinResult implements ActionListener {
 		button.setHorizontalAlignment(JLabel.CENTER);
 		Main.frame.add(button);
 		button.addActionListener(this);
+
+		ImageIcon icon = new ImageIcon("img/main.jpeg");
+		Image img = icon.getImage();
+		img = img.getScaledInstance(Device.dim.width, Device.dim.height, java.awt.Image.SCALE_SMOOTH);
+		icon = new ImageIcon(img);
+		mainImage = new JLabel(icon);
+		mainImage.setSize(Device.dim.width, Device.dim.height);
+		mainImage.setLocation(0,0);
+		mainImage.setHorizontalAlignment(JLabel.CENTER);
+		Main.frame.add(mainImage);
 
 		Main.frame.setVisible(true);
 		container.setVisible(true);

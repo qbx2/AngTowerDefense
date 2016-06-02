@@ -46,12 +46,12 @@ public abstract class Monster implements Paintable, TimerSettable {
 
 	public Monster() throws IOException, InterruptedException {
 		image = new Image[6];
-		image[0] = ImageIO.read(new File("zergling.png"));
-		image[1] = ImageIO.read(new File("golem.png"));
-		image[2] = ImageIO.read(new File("citizen.png"));
-		image[3] = ImageIO.read(new File("shaco.png"));
-		image[4] = ImageIO.read(new File("bee.png"));
-		image[5] = ImageIO.read(new File("boss.png"));
+		image[0] = ImageIO.read(new File("img/monster/zergling.png"));
+		image[1] = ImageIO.read(new File("img/monster/golem.png"));
+		image[2] = ImageIO.read(new File("img/monster/citizen.png"));
+		image[3] = ImageIO.read(new File("img/monster/shaco.png"));
+		image[4] = ImageIO.read(new File("img/monster/bee.png"));
+		image[5] = ImageIO.read(new File("img/monster/boss.png"));
 		route = astar();
 		move = new int[route.length()];
 		i=0;

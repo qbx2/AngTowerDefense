@@ -55,7 +55,7 @@ public class MainMenu implements ActionListener {
 		sign.addActionListener(this);
 		Main.frame.add(sign);
 
-		ImageIcon icon = new ImageIcon("main.jpeg");
+		ImageIcon icon = new ImageIcon("img/main.jpeg");
 		Image img = icon.getImage();
 		img = img.getScaledInstance(Device.dim.width, Device.dim.height, java.awt.Image.SCALE_SMOOTH);
 		icon = new ImageIcon(img);
@@ -64,7 +64,7 @@ public class MainMenu implements ActionListener {
 		mainImage.setLocation(0,0);
 		mainImage.setHorizontalAlignment(JLabel.CENTER);
 
-		icon = new ImageIcon("LCG.png");
+		icon = new ImageIcon("img/LCG.png");
 		img = icon.getImage();
 		img = img.getScaledInstance(Device.dim.width*245/800, Device.dim.width*300/800, java.awt.Image.SCALE_SMOOTH);
 		icon = new ImageIcon(img);

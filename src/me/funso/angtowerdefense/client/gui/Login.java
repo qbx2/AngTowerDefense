@@ -1,15 +1,10 @@
 package me.funso.angtowerdefense.client.gui;
 
-import java.awt.Container;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import me.funso.angtowerdefense.client.Device;
 import me.funso.angtowerdefense.client.Main;
@@ -23,6 +18,7 @@ public class Login implements ActionListener {
 	private JTextField idText;
 	private JButton ok, back;
 	private JPasswordField pwd;
+	private JLabel mainImage;
 	
 	public Login(MainMenu prev) {
 		this.prev = prev;
@@ -72,18 +68,28 @@ public class Login implements ActionListener {
 		pwd.addActionListener(this);
 		
 		ok = new JButton("LOGIN");
-		ok.setSize(Device.dim.width/6, Device.dim.height/15);
+		ok.setSize(Device.dim.width/5, Device.dim.height/10);
 		ok.setLocation(Device.dim.width/12*5, Device.dim.height/50*31);
-		ok.setFont(new Font("궁서",Font.BOLD,Device.dim.height/30));
+		ok.setFont(new Font("궁서",Font.BOLD,Device.dim.height/20));
 		Main.frame.add(ok);
 		ok.addActionListener(this);
 		
 		back = new JButton("BACK");
-		back.setSize(Device.dim.width/6, Device.dim.height/15);
+		back.setSize(Device.dim.width/5, Device.dim.height/10);
 		back.setLocation(Device.dim.width/4*3, Device.dim.height/5*4);
-		back.setFont(new Font("궁서",Font.BOLD,Device.dim.height/30));
+		back.setFont(new Font("궁서",Font.BOLD,Device.dim.height/20));
 		Main.frame.add(back);
 		back.addActionListener(this);
+
+		ImageIcon icon = new ImageIcon("img/main.jpeg");
+		Image img = icon.getImage();
+		img = img.getScaledInstance(Device.dim.width, Device.dim.height, java.awt.Image.SCALE_SMOOTH);
+		icon = new ImageIcon(img);
+		mainImage = new JLabel(icon);
+		mainImage.setSize(Device.dim.width, Device.dim.height);
+		mainImage.setLocation(0,0);
+		mainImage.setHorizontalAlignment(JLabel.CENTER);
+		Main.frame.add(mainImage);
 		
 		toMain(false);
 	}

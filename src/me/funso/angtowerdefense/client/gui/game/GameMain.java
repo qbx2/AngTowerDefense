@@ -23,14 +23,10 @@ import me.funso.angtowerdefense.client.gui.timer.WaveTimer;
 public class GameMain extends Container implements ActionListener, MouseListener, Paintable {
 	
 	final int TOWER_NUM = 10;
-
 	private StageSelection prev;
 	private JButton btn[];
-	
 	private JButton[] towerBuyBtn;
-	
-	private Game game;
-	
+
 	private int mineral;
 	public static int life;
 	public static int level;
@@ -45,6 +41,9 @@ public class GameMain extends Container implements ActionListener, MouseListener
 	ImageIcon icon[][];
 
 	public static GameMain gm;
+	private Game game;
+
+	private JLabel lcg;
 	
 	public GameMain(StageSelection prev, int level) throws IOException, InterruptedException {
 		this.prev = prev;
@@ -89,13 +88,13 @@ public class GameMain extends Container implements ActionListener, MouseListener
 		icon[2] = new ImageIcon[2];
 		icon[3] = new ImageIcon[1];
 
-		icon[0][0] = new ImageIcon("x1.png");
-		icon[0][1] = new ImageIcon("x2.png");
-		icon[0][2] = new ImageIcon("x4.png");
-		icon[1][0] = new ImageIcon("skip.png");
-		icon[2][0] = new ImageIcon("unmute.png");
-		icon[2][1] = new ImageIcon("mute.png");
-		icon[3][0] = new ImageIcon("menu.png");
+		icon[0][0] = new ImageIcon("img/btn/x1.png");
+		icon[0][1] = new ImageIcon("img/btn/x2.png");
+		icon[0][2] = new ImageIcon("img/btn/x4.png");
+		icon[1][0] = new ImageIcon("img/btn/skip.png");
+		icon[2][0] = new ImageIcon("img/btn/unmute.png");
+		icon[2][1] = new ImageIcon("img/btn/mute.png");
+		icon[3][0] = new ImageIcon("img/btn/menu.png");
 
 		for(int i=0; i<icon.length; i++) {
 			for(int j=0; j<icon[i].length; j++) {
@@ -117,6 +116,16 @@ public class GameMain extends Container implements ActionListener, MouseListener
 		}
 
 		setTimer();
+
+		ImageIcon icon = new ImageIcon("img/LCG.png");
+		Image img = icon.getImage();
+		img = img.getScaledInstance(Device.dim.width*245/1600, Device.dim.width*300/1600, java.awt.Image.SCALE_SMOOTH);
+		icon = new ImageIcon(img);
+		lcg = new JLabel(icon);
+		lcg.setSize(Device.dim.width*245/1600, Device.dim.width*300/1600);
+		lcg.setLocation(Device.dim.width/100*85, Device.dim.height/100*45);
+		lcg.setHorizontalAlignment(JLabel.CENTER);
+		Main.frame.add(lcg);
 
 	    this.addMouseListener(this);
 
