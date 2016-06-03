@@ -1,7 +1,9 @@
 package me.funso.angtowerdefense.client.gui.game.tower;
 
 
-import java.awt.Graphics;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Time;
 import java.util.Timer;
 
@@ -14,10 +16,14 @@ import me.funso.angtowerdefense.client.gui.game.monster.Monster;
 import me.funso.angtowerdefense.client.gui.game.monster.MonsterManager;
 import me.funso.angtowerdefense.client.gui.timer.AttackTimer;
 
+import javax.imageio.ImageIO;
+
 public abstract class Tower implements Paintable, TimerSettable {
+
+	public static Image[] image;
 	
 	int r_x,r_y;		//tile's center xy
-	int size;			//xy size;
+	int size_x, size_y;			//xy size;
 	int x,y;			//index in map;
 
 	String name;
@@ -35,8 +41,22 @@ public abstract class Tower implements Paintable, TimerSettable {
 		this.y = y;
 		this.r_x = r_x;
 		this.r_y = r_y;
-		size = Device.dim.height/40;
 		kill = 0;
+
+		image = new Image[9];
+		try {
+			image[0] = ImageIO.read(new File("img/tower/fast.png"));
+			image[1] = ImageIO.read(new File("img/tower/thunder.png"));
+			image[2] = ImageIO.read(new File("img/tower/lazer.png"));
+			image[3] = ImageIO.read(new File("img/tower/swamp.png"));
+			image[4] = ImageIO.read(new File("img/tower/mineral.png"));
+			image[5] = ImageIO.read(new File("img/tower/bomb.png"));
+			image[6] = ImageIO.read(new File("img/tower/poison.png"));
+			image[7] = ImageIO.read(new File("img/tower/freeze.png"));
+			image[8] = ImageIO.read(new File("img/tower/surprisebox.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void cancelTimer() {
@@ -110,7 +130,7 @@ public abstract class Tower implements Paintable, TimerSettable {
 	}
 	
 	public void paint(Graphics g) {
-		g.drawArc(r_x-size/2, r_y-size/2, size, size, 0, 360);
+		g.drawArc(r_x-size_x/2, r_y-size_y/2, size_x, size_y, 0, 360);
 	}
 
 	public int getType() { return type; }

@@ -1,8 +1,7 @@
 package me.funso.angtowerdefense.client.gui.game;
 
 
-import java.awt.Graphics;
-import java.awt.GraphicsEnvironment;
+import java.awt.*;
 
 import me.funso.angtowerdefense.TileType;
 import me.funso.angtowerdefense.client.Device;
@@ -40,7 +39,11 @@ public class Tile implements Paintable {
 	
 	public void paint(Graphics g) {
 		if(type == TileType.NORMAL) {
+			g.setColor(Color.BLACK);
+			g.fillRect(r_x-size/2, r_y-size/2, size, size);
+			g.setColor(Color.WHITE);
 			g.drawRect(r_x-size/2, r_y-size/2, size, size);
+			g.setColor(Color.BLACK);
 		}
 		if(tower != null) {
 			tower.paint(g);

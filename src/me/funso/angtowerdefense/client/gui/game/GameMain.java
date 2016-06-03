@@ -39,6 +39,7 @@ public class GameMain extends Container implements ActionListener, MouseListener
     Timer jobScheduler;
 
 	ImageIcon icon[][];
+	ImageIcon towerIcon[];
 
 	public static GameMain gm;
 	private Game game;
@@ -68,15 +69,46 @@ public class GameMain extends Container implements ActionListener, MouseListener
 
 		btn = new JButton[4];
 		towerBuyBtn = new JButton[TOWER_NUM];
+
+		towerIcon = new ImageIcon[10];
+		towerIcon[0] = new ImageIcon("img/tower/fast.png");
+		towerIcon[1] = new ImageIcon("img/tower/thunder.png");
+		towerIcon[2] = new ImageIcon("img/tower/lazer.png");
+		towerIcon[3] = new ImageIcon("img/tower/swamp.png");
+		towerIcon[4] = new ImageIcon("img/tower/mineral.png");
+		towerIcon[5] = new ImageIcon("img/tower/bomb.png");
+		towerIcon[6] = new ImageIcon("img/tower/poison.png");
+		towerIcon[7] = new ImageIcon("img/tower/freeze.png");
+		towerIcon[8] = new ImageIcon("img/tower/surprisebox.png");
+		towerIcon[9] = new ImageIcon("img/tower/nuclear.jpg");
 		
 		for(int i=0; i<2; i++) {
 			for(int j=0; j<5; j++) {
-				towerBuyBtn[i*5+j] = new JButton("Tower "+(i*5+j+1));
+				Image img = towerIcon[i*5+j].getImage();
+
+				int imageHeight = img.getHeight(Main.frame);
+				int imageWidth = img.getWidth(Main.frame);
+				int size_x, size_y;
+				if (imageHeight < imageWidth) {
+					size_x = (Device.dim.width - Device.dim.height) / 6;
+					size_y = size_x * imageHeight / imageWidth;
+				} else {
+					size_y = (Device.dim.width - Device.dim.height) / 6;
+					size_x = size_y * imageWidth / imageHeight;
+				}
+
+				img = img.getScaledInstance(size_x, size_y, Image.SCALE_SMOOTH);
+				towerIcon[i*5+j] = new ImageIcon(img);
+
+				towerBuyBtn[i*5+j] = new JButton(towerIcon[i*5+j]);
+				towerBuyBtn[i*5+j].setBackground(Color.BLACK);
+				towerBuyBtn[i*5+j].setBorder(BorderFactory.createLineBorder(Color.WHITE));
+				towerBuyBtn[i*5+j].setOpaque(true);
 				towerBuyBtn[i*5+j].setSize((Device.dim.width - Device.dim.height)/5, (Device.dim.width - Device.dim.height)/5);
 				towerBuyBtn[i*5+j].setLocation(Device.dim.height + Device.dim.height/70 - Device.dim.height/100*4 + (Device.dim.width - Device.dim.height)/5*j,
 						Device.dim.height/70 + Device.dim.height/100 + (Device.dim.width - Device.dim.height)/5*i);
-				towerBuyBtn[i*5+j].setFont(new Font("궁서",Font.BOLD,Device.dim.height/60));
-				towerBuyBtn[i*5+j].setHorizontalAlignment(JLabel.CENTER);
+				towerBuyBtn[i*5+j].setHorizontalAlignment(JButton.CENTER);
+
 				Main.frame.add(towerBuyBtn[i*5+j]);
 				towerBuyBtn[i*5+j].addActionListener(this);
 			}
@@ -305,24 +337,21 @@ public class GameMain extends Container implements ActionListener, MouseListener
 			x = (e.getX() - (Device.dim.height/35 + Device.dim.height/70/50)) / (Device.dim.height/35);
 			y = (e.getY() - (Device.dim.height/70 + Device.dim.height/100)) / (Device.dim.height/35);
 			
-			if(selected >= -100 && selected <= -91)
-				if(Main.user.level >= Main.towerInfo[selected+100].unlock_level) {
-					if(mineral >= Main.towerInfo[selected+100].cost) {
-						if(game.buildTower(x, y, selected+100))
-							payMineral(selected+100);
-					} else {
-						//mineral shortage message
+			if(selected >= -100 && selected <= -91) {
+				if (Main.user.level >= Main.towerInfo[selected + 100].unlock_level) {
+					if (mineral >= Main.towerInfo[selected + 100].cost) {
+						if (game.buildTower(x, y, selected + 100))
+							payMineral(selected + 100);
+						else
+							selected = (x + 1) * 100 + y + 1;
+					} else
 						selected = -99999;
-					}
-					if(selected == -91)
+					if (selected == -91)
 						selected = 0;
-				} else {
-					//level limit message
+				} else
 					selected = -99998;
-				}
-			else {
+			} else
 				selected = (x+1)*100 + y+1;
-			}
 		}
 	}
 

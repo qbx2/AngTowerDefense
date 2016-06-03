@@ -20,7 +20,7 @@ import javax.imageio.ImageIO;
 
 public abstract class Monster implements Paintable, TimerSettable {
 
-	public Image[] image;
+	public static Image[] image;
 
 	int x,y;
 	String route, newRoute;
@@ -52,6 +52,7 @@ public abstract class Monster implements Paintable, TimerSettable {
 		image[3] = ImageIO.read(new File("img/monster/shaco.png"));
 		image[4] = ImageIO.read(new File("img/monster/bee.png"));
 		image[5] = ImageIO.read(new File("img/monster/boss.png"));
+
 		route = astar();
 		move = new int[route.length()];
 		i=0;
@@ -220,19 +221,6 @@ public abstract class Monster implements Paintable, TimerSettable {
 	
 	public void setY(int y) {
 		this.y = y;
-	}
-	
-	public void setXY(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
-	
-	public void moveX(int x) {
-		this.x += x;
-	}
-	
-	public void moveY(int y) {
-		this.y += y;
 	}
 	
 	public String astar() throws IOException, InterruptedException {

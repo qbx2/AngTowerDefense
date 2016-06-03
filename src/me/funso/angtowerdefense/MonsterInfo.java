@@ -1,5 +1,9 @@
 package me.funso.angtowerdefense;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 
 public class MonsterInfo implements Serializable {
