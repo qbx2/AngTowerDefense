@@ -3,6 +3,7 @@ package me.funso.angtowerdefense.client.gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 
 import javax.swing.*;
 
@@ -55,7 +56,7 @@ public class MainMenu implements ActionListener {
 		sign.addActionListener(this);
 		Main.frame.add(sign);
 
-		ImageIcon icon = new ImageIcon("img/main.jpeg");
+		ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("img/main.jpeg"));
 		Image img = icon.getImage();
 		img = img.getScaledInstance(Device.dim.width, Device.dim.height, java.awt.Image.SCALE_SMOOTH);
 		icon = new ImageIcon(img);
@@ -64,7 +65,7 @@ public class MainMenu implements ActionListener {
 		mainImage.setLocation(0,0);
 		mainImage.setHorizontalAlignment(JLabel.CENTER);
 
-		icon = new ImageIcon("img/LCG.png");
+		icon = new ImageIcon(getClass().getClassLoader().getResource("img/LCG.png"));
 		img = icon.getImage();
 		img = img.getScaledInstance(Device.dim.width*245/800, Device.dim.width*300/800, java.awt.Image.SCALE_SMOOTH);
 		icon = new ImageIcon(img);

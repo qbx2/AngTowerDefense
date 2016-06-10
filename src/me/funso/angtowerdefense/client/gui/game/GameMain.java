@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Timer;
 
 import javax.swing.*;
@@ -71,16 +72,16 @@ public class GameMain extends Container implements ActionListener, MouseListener
 		towerBuyBtn = new JButton[TOWER_NUM];
 
 		towerIcon = new ImageIcon[10];
-		towerIcon[0] = new ImageIcon("img/tower/fast.png");
-		towerIcon[1] = new ImageIcon("img/tower/thunder.png");
-		towerIcon[2] = new ImageIcon("img/tower/lazer.png");
-		towerIcon[3] = new ImageIcon("img/tower/swamp.png");
-		towerIcon[4] = new ImageIcon("img/tower/mineral.png");
-		towerIcon[5] = new ImageIcon("img/tower/bomb.png");
-		towerIcon[6] = new ImageIcon("img/tower/poison.png");
-		towerIcon[7] = new ImageIcon("img/tower/freeze.png");
-		towerIcon[8] = new ImageIcon("img/tower/surprisebox.png");
-		towerIcon[9] = new ImageIcon("img/tower/nuclear.jpg");
+		towerIcon[0] = new ImageIcon(getClass().getClassLoader().getResource("img/tower/fast.png"));
+		towerIcon[1] = new ImageIcon(getClass().getClassLoader().getResource("img/tower/thunder.png"));
+		towerIcon[2] = new ImageIcon(getClass().getClassLoader().getResource("img/tower/lazer.png"));
+		towerIcon[3] = new ImageIcon(getClass().getClassLoader().getResource("img/tower/swamp.png"));
+		towerIcon[4] = new ImageIcon(getClass().getClassLoader().getResource("img/tower/mineral.png"));
+		towerIcon[5] = new ImageIcon(getClass().getClassLoader().getResource("img/tower/bomb.png"));
+		towerIcon[6] = new ImageIcon(getClass().getClassLoader().getResource("img/tower/poison.png"));
+		towerIcon[7] = new ImageIcon(getClass().getClassLoader().getResource("img/tower/freeze.png"));
+		towerIcon[8] = new ImageIcon(getClass().getClassLoader().getResource("img/tower/surprisebox.png"));
+		towerIcon[9] = new ImageIcon(getClass().getClassLoader().getResource("img/tower/nuclear.jpg"));
 		
 		for(int i=0; i<2; i++) {
 			for(int j=0; j<5; j++) {
@@ -120,13 +121,13 @@ public class GameMain extends Container implements ActionListener, MouseListener
 		icon[2] = new ImageIcon[2];
 		icon[3] = new ImageIcon[1];
 
-		icon[0][0] = new ImageIcon("img/btn/x1.png");
-		icon[0][1] = new ImageIcon("img/btn/x2.png");
-		icon[0][2] = new ImageIcon("img/btn/x4.png");
-		icon[1][0] = new ImageIcon("img/btn/skip.png");
-		icon[2][0] = new ImageIcon("img/btn/unmute.png");
-		icon[2][1] = new ImageIcon("img/btn/mute.png");
-		icon[3][0] = new ImageIcon("img/btn/menu.png");
+		icon[0][0] = new ImageIcon(getClass().getClassLoader().getResource("img/btn/x1.png"));
+		icon[0][1] = new ImageIcon(getClass().getClassLoader().getResource("img/btn/x2.png"));
+		icon[0][2] = new ImageIcon(getClass().getClassLoader().getResource("img/btn/x4.png"));
+		icon[1][0] = new ImageIcon(getClass().getClassLoader().getResource("img/btn/skip.png"));
+		icon[2][0] = new ImageIcon(getClass().getClassLoader().getResource("img/btn/unmute.png"));
+		icon[2][1] = new ImageIcon(getClass().getClassLoader().getResource("img/btn/mute.png"));
+		icon[3][0] = new ImageIcon(getClass().getClassLoader().getResource("img/btn/menu.png"));
 
 		for(int i=0; i<icon.length; i++) {
 			for(int j=0; j<icon[i].length; j++) {
@@ -149,7 +150,7 @@ public class GameMain extends Container implements ActionListener, MouseListener
 
 		setTimer();
 
-		ImageIcon icon = new ImageIcon("img/LCG.png");
+		ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("img/LCG.png"));
 		Image img = icon.getImage();
 		img = img.getScaledInstance(Device.dim.width*245/1600, Device.dim.width*300/1600, java.awt.Image.SCALE_SMOOTH);
 		icon = new ImageIcon(img);

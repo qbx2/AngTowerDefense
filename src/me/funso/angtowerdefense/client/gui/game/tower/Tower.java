@@ -4,6 +4,7 @@ package me.funso.angtowerdefense.client.gui.game.tower;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Time;
 import java.util.Timer;
 
@@ -45,15 +46,15 @@ public abstract class Tower implements Paintable, TimerSettable {
 
 		image = new Image[9];
 		try {
-			image[0] = ImageIO.read(new File("img/tower/fast.png"));
-			image[1] = ImageIO.read(new File("img/tower/thunder.png"));
-			image[2] = ImageIO.read(new File("img/tower/lazer.png"));
-			image[3] = ImageIO.read(new File("img/tower/swamp.png"));
-			image[4] = ImageIO.read(new File("img/tower/mineral.png"));
-			image[5] = ImageIO.read(new File("img/tower/bomb.png"));
-			image[6] = ImageIO.read(new File("img/tower/poison.png"));
-			image[7] = ImageIO.read(new File("img/tower/freeze.png"));
-			image[8] = ImageIO.read(new File("img/tower/surprisebox.png"));
+			image[0] = ImageIO.read(getClass().getClassLoader().getResource("img/tower/fast.png"));
+			image[1] = ImageIO.read(getClass().getClassLoader().getResource("img/tower/thunder.png"));
+			image[2] = ImageIO.read(getClass().getClassLoader().getResource("img/tower/lazer.png"));
+			image[3] = ImageIO.read(getClass().getClassLoader().getResource("img/tower/swamp.png"));
+			image[4] = ImageIO.read(getClass().getClassLoader().getResource("img/tower/mineral.png"));
+			image[5] = ImageIO.read(getClass().getClassLoader().getResource("img/tower/bomb.png"));
+			image[6] = ImageIO.read(getClass().getClassLoader().getResource("img/tower/poison.png"));
+			image[7] = ImageIO.read(getClass().getClassLoader().getResource("img/tower/freeze.png"));
+			image[8] = ImageIO.read(getClass().getClassLoader().getResource("img/tower/surprisebox.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

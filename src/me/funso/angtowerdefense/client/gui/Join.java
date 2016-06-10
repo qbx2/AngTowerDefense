@@ -94,7 +94,7 @@ public class Join implements ActionListener {
 		Main.frame.add(back);
 		back.addActionListener(this);
 
-		ImageIcon icon = new ImageIcon("img/main.jpeg");
+		ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("img/main.jpeg"));
 		Image img = icon.getImage();
 		img = img.getScaledInstance(Device.dim.width, Device.dim.height, java.awt.Image.SCALE_SMOOTH);
 		icon = new ImageIcon(img);
